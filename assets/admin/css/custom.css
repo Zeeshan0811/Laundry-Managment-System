@@ -1,0 +1,11 @@
+.navbar-dark {
+    background-color: #0097bf;
+}
+
+
+@media print {
+    .no-print,
+    .no-print * {
+        display: none !important;
+    }
+}
