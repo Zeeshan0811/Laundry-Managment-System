@@ -81,6 +81,16 @@ $route['customer_add'] = 'CustomerController/customer_add';
 
 $route['admin/master_stock'] = 'ProductController/master_stock';
 
+// Action Controller
+$route['order'] = 'ActionController/order';
+$route['orders'] = 'ActionController/orders';
+$route['rental'] = 'ActionController/rental';
+$route['pickup'] = 'ActionController/pickup';
+$route['master_stock_new'] = 'ActionController/master_stock_new';
+
+
+// Report Controller
+$route['reports'] = 'ReportController/reports';
 
 $route['admin/delete/(:any)/(:any)'] = 'SetupController/delete_row/$1/$2';
 // Delete variables - neeed to do - delete/asset/id

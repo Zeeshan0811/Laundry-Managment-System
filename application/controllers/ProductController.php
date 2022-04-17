@@ -15,6 +15,7 @@ class ProductController extends CI_Controller
         if ($this->session->userdata('userId') == null || $this->session->userdata('userId') < 1) {
             redirect(base_url('admin'));
         }
+        $this->system_config = $this->CommonModel->get_single_data_by_single_column('nso_sysconfig', 'id', 1);
     }
 
 
@@ -104,15 +105,6 @@ class ProductController extends CI_Controller
         $data['product'] = $this->CommonModel->get_single_data_by_single_column('nso_product', 'pro_id', $pro_id);
         $data['images'] = $this->CommonModel->get_data_list_by_single_column('nso_images', 'reference_id', $pro_id);
         $data['mainContent'] = $this->load->view('admin/product/edit.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
-    }
-
-
-    public function featured()
-    {
-        $data['title'] = "Featured Product";
-        $data['products'] = $this->CommonModel->get_data_list('nso_product', 'createdAt', 'DESC');
-        $data['mainContent'] = $this->load->view('admin/featured/list.php', $data, true);
         $this->load->view('admin_master_templete', $data);
     }
 }

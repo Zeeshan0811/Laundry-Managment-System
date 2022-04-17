@@ -5,7 +5,7 @@
         <div class="col-md-10">
             <!-- Hover rows -->
             <div class="card">
-                <div class="card-header header-elements-inline">
+                <div class="card-header header-elements-inline pb-2">
                     <h4 class="card-title">
                         <span class="font-weight-semibold"><i class="icon-gear mr-2"></i> <?php echo $title; ?></span>
                     </h4>

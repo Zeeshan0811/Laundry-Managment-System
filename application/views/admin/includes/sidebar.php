@@ -59,18 +59,22 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-submenu">
-                    <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Assets</span></a>
+                    <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Action</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
-                        <li class="nav-item"><a href="<?php echo base_url('admin/asset_add')  ?>" class="nav-link">Add New</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('admin/assets')  ?>" class="nav-link">View List</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('order')  ?>" class="nav-link">New Order</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('rental')  ?>" class="nav-link">New Rental Charge</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('pickup')  ?>" class="nav-link">New Pickup Order</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('customer_add')  ?>" class="nav-link">New Customer</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('master_stock_new')  ?>" class="nav-link">New Master Stock Item</a></li>
                     </ul>
                 </li>
-                <li class="nav-item nav-item-submenu">
-                    <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Products</span></a>
-                    <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
-                        <li class="nav-item"><a href="<?php echo base_url('admin/product_add')  ?>" class="nav-link">Add New</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('admin/products')  ?>" class="nav-link">View List</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('orders')  ?>" class="nav-link">
+                        <i class="icon-stack"></i>
+                        <span>
+                            Orders
+                        </span>
+                    </a>
                 </li>
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Customers</span></a>
@@ -79,17 +83,16 @@
                         <li class="nav-item"><a href="<?php echo base_url('customers')  ?>" class="nav-link">View List</a></li>
                     </ul>
                 </li>
-
-                <!--<li class="nav-item">-->
-                <!--    <a href="<?php echo base_url('admin/transections')  ?>" class="nav-link">-->
-                <!--        <i class="icon-stack"></i>-->
-                <!--        <span>-->
-                <!--            Transections-->
-                <!--        </span>-->
-                <!--    </a>-->
-                <!--</li>-->
+                <li class="nav-item">
+                    <a href="<?php echo base_url('reports')  ?>" class="nav-link">
+                        <i class="icon-stack"></i>
+                        <span>
+                            Reports
+                        </span>
+                    </a>
+                </li>
                 <li class="nav-item nav-item-submenu">
-                    <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Settings</span></a>
+                    <a href="#" class="nav-link"><i class="icon-gear"></i> <span>Settings</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
                         <li class="nav-item"><a href="<?php echo base_url('setting/user')  ?>" class="nav-link">My Profile</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('setting/company')  ?>" class="nav-link">My Laundry</a></li>
