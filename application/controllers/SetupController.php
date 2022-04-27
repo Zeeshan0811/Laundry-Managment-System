@@ -219,6 +219,14 @@ class SetupController extends CI_Controller
                 $message = "Product deleted successfully !!";
                 $redirect = 'admin/products';
                 break;
+            case 'customer':
+                $deleted_data['from_table'] = 'nso_user';
+                $deleted_Value = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $id);
+
+                $this->CommonModel->delete_data('nso_user', 'userId', $id);
+                $message = "Customer has deleted successfully !!";
+                $redirect = 'customers';
+                break;
             default:
                 $deleted_Value = 'NULL';
                 $exception = "Your request has invalid! Please try again";

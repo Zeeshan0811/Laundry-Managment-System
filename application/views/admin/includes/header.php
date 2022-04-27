@@ -2,7 +2,7 @@
 <div class="navbar navbar-expand-md navbar-dark">
     <div class="navbar-brand">
         <a href="<?php echo base_url(); ?>" class="d-inline-block">
-            <img src="<?php echo site_url('assets/admin/images/logo_light.png'); ?>" alt="" style="height: 30px;">
+            <img src="<?php echo site_url('upload/logo/logo_yoweri_laundries.png'); ?>" alt="" style="height: 30px;">
         </a>
     </div>
 
@@ -27,6 +27,32 @@
         <span class="badge bg-success ml-md-3 mr-md-auto">Online</span>
 
         <ul class="navbar-nav">
+            <li class="nav-item dropdown custom-nav">
+                <a href="#" class="navbar-nav-link" data-toggle="dropdown">
+                    <i class="icon-plus-circle2"></i>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-left">
+                    <a href="<?php echo base_url('order')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Order</a>
+                    <a href="<?php echo base_url('rental')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Rental Charge</a>
+                    <a href="<?php echo base_url('pickup')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Pickup Order</a>
+                    <a href="<?php echo base_url('customer_add')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Customer</a>
+                    <a href="<?php echo base_url('master_stock')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Master Stock Item</a>
+                </div>
+            </li>
+
+            <li class="nav-item custom-nav">
+                <a href="<?php echo base_url('reports')  ?>" class="navbar-nav-link" title="Reports">
+                    <i class="icon-stats-growth"></i>
+                </a>
+            </li>
+            <li class="nav-item custom-nav">
+                <a href="<?php echo base_url('orders')  ?>" class="navbar-nav-link" title="Orders">
+                    <i class="icon-cart5"></i>
+                </a>
+            </li>
+
+
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
                     <?php $photo = (!empty($current_user->photo)) ? $current_user->photo : 'default.png'; ?>

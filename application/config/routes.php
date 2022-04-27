@@ -78,15 +78,17 @@ $route['setting/password'] = 'SetupController/change_password';
 
 $route['customers'] = 'CustomerController/customers';
 $route['customer_add'] = 'CustomerController/customer_add';
+$route['customer_edit/(:any)'] = 'CustomerController/customer_edit/$1';
 
-$route['admin/master_stock'] = 'ProductController/master_stock';
+$route['master_stock'] = 'ProductController/master_stock';
+$route['ajax/master_stock_add'] = 'ProductController/master_stock_add_ajax';
+$route['ajax/master_stock_update'] = 'ProductController/master_stock_update_ajax';
 
 // Action Controller
 $route['order'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
 $route['rental'] = 'ActionController/rental';
 $route['pickup'] = 'ActionController/pickup';
-$route['master_stock_new'] = 'ActionController/master_stock_new';
 
 
 // Report Controller

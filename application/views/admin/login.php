@@ -55,7 +55,7 @@
         <div class="content-wrapper">
 
             <!-- Content area -->
-            <div class="content d-flex justify-content-end align-items-center">
+            <div class="content d-flex justify-content-center align-items-center">
 
                 <!-- Login form -->
                 <form class="login-form wmin-sm-400" action="<?php echo base_url('admin/login');  ?>" method="post">

@@ -12,7 +12,7 @@
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="card-body">
-                    <form action="<?php echo base_url('customer_add'); ?>" enctype="multipart/form-data" method="POST" id="customer_form">
+                    <form action="<?php echo base_url('customer_edit/' . $customer->userId); ?>" enctype="multipart/form-data" method="POST" id="customer_form">
                         <div class="row">
                             <!-- Details -->
 
@@ -26,43 +26,43 @@
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Trading Name</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="trading_name" class="form-control" name="text" required>
+                                        <input type="text" name="trading_name" class="form-control" name="text" value="<?php echo $custom_details->trading_name; ?>" required>
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Legal Name</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="legal_name" class="form-control" name="text">
+                                        <input type="text" name="legal_name" class="form-control" name="text" value="<?php echo $custom_details->legal_name; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">ABN</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="abn" class="form-control" name="text">
+                                        <input type="text" name="abn" class="form-control" name="text" value="<?php echo $custom_details->abn; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Customer Code</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="customer_code" class="form-control" name="text">
+                                        <input type="text" name="customer_code" class="form-control" name="text" value="<?php echo $custom_details->customer_code; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">GL Code</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="gl_code" class="form-control" name="text">
+                                        <input type="text" name="gl_code" class="form-control" name="text" value="<?php echo $custom_details->gl_code; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Business Email</label>
                                     <div class="col-md-7">
-                                        <input type="email" name="business_email" class="form-control" name="text">
+                                        <input type="email" name="business_email" class="form-control" name="text" value="<?php echo $custom_details->business_email; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Business Phone</label>
                                     <div class="col-md-7">
-                                        <input type="text" name="business_phone" class="form-control" name="text">
+                                        <input type="text" name="business_phone" class="form-control" name="text" value="<?php echo $custom_details->business_phone; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
@@ -96,29 +96,29 @@
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Address line 1</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="delivery_add_line_1" class="form-control" name="text">
+                                        <input type="text" name="delivery_add_line_1" class="form-control" name="text" value="<?php echo $custom_details->delivery_add_line_1; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Address line 2</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="delivery_add_line_2" class="form-control" name="text">
+                                        <input type="text" name="delivery_add_line_2" class="form-control" name="text" value="<?php echo $custom_details->delivery_add_line_2; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Suburb</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="delivery_suburb" class="form-control" name="text">
+                                        <input type="text" name="delivery_suburb" class="form-control" name="text" value="<?php echo $custom_details->delivery_suburb; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">State</label>
                                     <div class="col-md-3">
-                                        <input type="text" name="delivery_state" class="form-control" name="text">
+                                        <input type="text" name="delivery_state" class="form-control" name="text" value="<?php echo $custom_details->delivery_state; ?>">
                                     </div>
                                     <label class="col-form-label col-md-3">Postcode</label>
                                     <div class="col-md-3">
-                                        <input type="text" name="delivery_postcode" class="form-control" name="text">
+                                        <input type="text" name="delivery_postcode" class="form-control" name="text" value="<?php echo $custom_details->delivery_postcode; ?>">
                                     </div>
                                 </div>
 
@@ -131,29 +131,29 @@
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Address line 1</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="billing_add_line_1" class="form-control" name="text">
+                                        <input type="text" name="billing_add_line_1" class="form-control" name="text" value="<?php echo $custom_details->billing_add_line_1; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Address line 2</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="billing_add_line_2" class="form-control" name="text">
+                                        <input type="text" name="billing_add_line_2" class="form-control" name="text" value="<?php echo $custom_details->billing_add_line_2; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">Suburb</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="billing_suburb" class="form-control" name="text">
+                                        <input type="text" name="billing_suburb" class="form-control" name="text" value="<?php echo $custom_details->billing_suburb; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row justify-content-md-center">
                                     <label class="col-form-label col-md-3">State</label>
                                     <div class="col-md-3">
-                                        <input type="text" name="billing_state" class="form-control" name="text">
+                                        <input type="text" name="billing_state" class="form-control" name="text" value="<?php echo $custom_details->billing_state; ?>">
                                     </div>
                                     <label class="col-form-label col-md-3">Postcode</label>
                                     <div class="col-md-3">
-                                        <input type="text" name="billing_postcode" class="form-control" name="text">
+                                        <input type="text" name="billing_postcode" class="form-control" name="text" value="<?php echo $custom_details->billing_postcode; ?>">
                                     </div>
                                 </div>
                             </div>

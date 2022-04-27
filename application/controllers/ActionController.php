@@ -37,12 +37,6 @@ class ActionController extends CI_Controller
         $this->load->view('admin_master_templete', $data);
     }
 
-    public function master_stock_new()
-    {
-        $data['title'] = "Master Stock";
-        $data['mainContent'] = $this->load->view('admin/action/master_stock.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
-    }
 
     public function orders()
     {

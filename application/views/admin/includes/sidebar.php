@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="media-body">
-                        <div class="media-title font-weight-semibold"><?php echo $current_user->firstName;  ?></div>
+                        <div class="media-title font-weight-semibold"><?php echo $current_user->firstName . ' ' .  $current_user->lastName;  ?></div>
                         <div class="font-size-xs opacity-50">
                             <i class="icon-pin font-size-sm"></i> &nbsp;<?php echo $current_user->address;  ?>
                         </div>
@@ -64,7 +64,6 @@
                         <li class="nav-item"><a href="<?php echo base_url('order')  ?>" class="nav-link">New Order</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('rental')  ?>" class="nav-link">New Rental Charge</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('pickup')  ?>" class="nav-link">New Pickup Order</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('customer_add')  ?>" class="nav-link">New Customer</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('master_stock_new')  ?>" class="nav-link">New Master Stock Item</a></li>
                     </ul>
                 </li>
@@ -88,6 +87,14 @@
                         <i class="icon-stack"></i>
                         <span>
                             Reports
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('master_stock')  ?>" class="nav-link">
+                        <i class="icon-stack"></i>
+                        <span>
+                            Master Stock
                         </span>
                     </a>
                 </li>

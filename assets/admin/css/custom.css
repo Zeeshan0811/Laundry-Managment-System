@@ -1,7 +1,25 @@
-.navbar-dark {
-    background-color: #0097bf;
+.navbar-dark,
+.sidebar-dark {
+    background-color: #1c3142;
 }
 
+
+.custom-nav {
+    border-right: 1px solid #fff;
+}
+
+.custom-nav i {
+    font-size: 18px;
+}
+
+#Page_footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background: #1c3142;
+}
 
 @media print {
     .no-print,

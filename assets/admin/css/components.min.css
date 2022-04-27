@@ -18008,8 +18008,9 @@ textarea#HandsontableCopyPaste {
 }
 
 .login-cover {
-    background: url('../images/login_bg.png') no-repeat;
-    background-size: cover
+    /* background: url('../images/login_bg.png') no-repeat; */
+    background-size: cover;
+    background-color: #1c3142;
 }
 
 .login-form {
