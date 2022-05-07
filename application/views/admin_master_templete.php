@@ -81,6 +81,11 @@
     <script src="<?php echo site_url('assets/admin/js/pages/datatables_extension_buttons_html5.js'); ?>"></script>
     <script src="<?php echo site_url('assets/admin/js/plugins/datatables/extensions/datatables_extension_buttons_print.js'); ?>"></script>
 
+    <script src="<?php echo site_url('assets/admin/js/plugins/forms/styling/uniform.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/admin/js/plugins/forms/styling/switchery.min.js'); ?>"></script>
+    <script src="<?php echo site_url('assets/admin/js/plugins/forms/inputs/touchspin.min.js'); ?>"></script>
+
+    <script src="<?php echo site_url('assets/admin/js/pages/form_input_groups.js'); ?>"></script>
     <script src="<?php echo site_url('assets/admin/js/custom.js'); ?>"></script>
     <script src="https://www.w3counter.com/tracker.js?id=128746"></script>
 

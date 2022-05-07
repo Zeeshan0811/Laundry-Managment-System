@@ -81,8 +81,11 @@ $route['customer_add'] = 'CustomerController/customer_add';
 $route['customer_edit/(:any)'] = 'CustomerController/customer_edit/$1';
 
 $route['master_stock'] = 'ProductController/master_stock';
+$route['ajax/master_stock_get'] = 'ProductController/master_stock_get_ajax';
 $route['ajax/master_stock_add'] = 'ProductController/master_stock_add_ajax';
 $route['ajax/master_stock_update'] = 'ProductController/master_stock_update_ajax';
+
+$route['ajax/order_submit'] = 'AjaxController/order_submit';
 
 // Action Controller
 $route['order'] = 'ActionController/order';

@@ -24,42 +24,40 @@
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="card-body">
-                    <form action="<?php echo base_url('order'); ?>" enctype="multipart/form-data" method="POST">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group row justify-content-md-center">
-                                    <label class="col-form-label col-md-4">Customer*</label>
-                                    <div class="col-md-8">
-                                        <select class="form-control" name="" id="">
-                                            <option value="">Name A</option>
-                                            <option value="">Name B</option>
-                                            <option value="">Name C</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group row justify-content-md-center">
-                                    <label class="col-form-label col-md-4">Delivery</label>
-                                    <div class="col-md-8">
-                                        <select class="form-control" name="" id="">
-                                            <option value="">Name A</option>
-                                            <option value="">Name B</option>
-                                            <option value="">Name C</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group row justify-content-md-center">
-                                    <label class="col-form-label col-md-4">Purchase Order</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="repeat_password" required>
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group row justify-content-md-center">
+                                <label class="col-form-label col-md-4">Customer*</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="customer" id="customer">
+                                        <?php foreach ($customers as $customer) {  ?>
+                                            <option value="<?php echo $customer->userId; ?>"><?php echo $customer->firstName . ' ' . $customer->lastName; ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                        <div class="col-md-4">
+                            <div class="form-group row justify-content-md-center">
+                                <label class="col-form-label col-md-4">Delivery</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="delivery" id="delivery">
+                                        <?php foreach ($delivery_types as $delivery) { ?>
+                                            <option value="<?php echo $delivery->unitId; ?>"><?php echo $delivery->title; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row justify-content-md-center">
+                                <label class="col-form-label col-md-4">Purchase Order</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="purchase_order_number" id="purchase_order_number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -72,8 +70,34 @@
                     </h5>
                 </div>
                 <div class="dropdown-divider"></div>
-                <div class="card-body">
-
+                <div class="card-body p-0">
+                    <table class="table table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>PRODUCT NAME</th>
+                                <th>CATEGORY</th>
+                                <th>PACK SIZE</th>
+                                <th>PACKS</th>
+                                <th width="20%">TOTAL PIECES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product_list">
+                            <?php foreach ($products as $product) { ?>
+                                <tr data-master_stock_id="<?php echo $product->master_stock_id; ?>">
+                                    <td><?php echo $product->product_name; ?></td>
+                                    <td><?php echo $product->pack_size; ?></td>
+                                    <td><?php echo $product->pack_size; ?></td>
+                                    <td><?php echo $product->pack_size; ?></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="hidden" name="master_stock_id[]" value="<?php echo $product->master_stock_id; ?>">
+                                            <input type="text" name="total_piece[]" value="1" class="form-control touchspin-set-value total_piece">
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        <tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -82,3 +106,33 @@
 
 </div>
 <!-- /content area -->
+
+
+
+<!-- Footer -->
+<div class="content pt-2 pb-2" id="Page_footer">
+    <div class="text-right">
+        <button type="button" id="submit" class="btn btn-primary">Submit <i class="icon-paperplane ml-2"></i></button>
+    </div>
+</div>
+<!-- /footer -->
+
+<script>
+    $(document).on('click', '#submit', function(e) {
+        e.preventDefault();
+        let item = {};
+        item.customer = $('#customer').val();
+        item.delivery = $('#delivery').val();
+        item.purchase_order_number = $('#purchase_order_number').val();
+
+        let item_list = $('#product_list').
+
+        let url = base_url + "ajax/order_submit";
+        $.post(url, {
+            item: JSON.stringify(item)
+        }, function(data) {
+            console.log(data);
+
+        });
+    })
+</script>

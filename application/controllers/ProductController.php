@@ -26,16 +26,27 @@ class ProductController extends CI_Controller
         $this->load->view('admin_master_templete', $data);
     }
 
+    public function master_stock_get_ajax()
+    {
+        $stocks = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'user_id', $this->session->userdata('userId'), 'product_name', 'ASC');
+        if (!empty($stocks)) {
+            echo json_encode($stocks);
+        } else {
+            echo 0;
+        }
+    }
+
     public function master_stock_add_ajax()
     {
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
-            // dumpVar($item->product_name);
+            // dumpVar($item);
             $postBackData['product_name'] = $item->product_name;
             $postBackData['pack_size'] = $item->pack_size;
             $postBackData['wash_price'] = $item->wash_price;
             $postBackData['rental_price'] = $item->rental_price;
-            // $postBackData['rental_type'] = $item->rental_type;
+            $postBackData['rental_type'] = $item->rental_type;
+            $postBackData['user_id'] = $this->session->userdata('userId');
             $postBackData['updated_by'] = $this->session->userdata('userId');
             $postBackData['updated_at'] = date('Y-m-d H:i:s');
 
@@ -49,16 +60,17 @@ class ProductController extends CI_Controller
     {
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
-            $master_stock_id  = $item->stock_id;
+            // dumpVar($item);
+            $master_stock_id  = $item->master_stock_id;
             $postBackData['product_name'] = $item->product_name;
             $postBackData['pack_size'] = $item->pack_size;
             $postBackData['wash_price'] = $item->wash_price;
             $postBackData['rental_price'] = $item->rental_price;
-            // $postBackData['rental_type'] = $item->rental_type;
+            $postBackData['rental_type'] = $item->rental_type;
             $postBackData['updated_by'] = $this->session->userdata('userId');
             $postBackData['updated_at'] = date('Y-m-d H:i:s');
 
-            echo $this->CommonModel->insert_data('nso_master_stock', $postBackData);
+            echo $this->CommonModel->update_data('nso_master_stock', $postBackData, 'master_stock_id', $master_stock_id);
         } else {
             echo 0;
         }

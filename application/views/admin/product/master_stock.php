@@ -28,26 +28,26 @@
                         <div class="col-4">PRODUCT NAME</div>
                         <div class="col-2">PACK SIZE</div>
                         <div class="col-2">WASH PRICE</div>
-                        <div class="col-4">RENTAL PRICE</div>
+                        <div class="col-3">RENTAL PRICE</div>
                         <div class="col-1">ACTION</div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <input type="text" class="form-control product_name" id="product_name" placeholder="Name of a Product">
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <input type="text" class="form-control pack_size" id="pack_size" value="1">
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <input type="text" class="form-control wash_price" id="wash_price" value="0.00">
                             </div>
                         </div>
-                        <div class="col-3 d-flex">
+                        <div class="col-md-3 d-flex">
                             <div class="form-group">
                                 <input type="text" class="form-control rental_price" id="rental_price" value="0.00">
 
@@ -61,7 +61,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-1">
+                        <div class="col-md-1">
                             <div class="form-group">
                                 <a href="#" id="add_stock" class="btn  btn-success btn-sm" title="Add Item">
                                     <i class="icon-plus-circle2"> </i>
@@ -82,23 +82,32 @@
 
 <script>
     $(document).ready(function() {
-
+        let url = base_url + "ajax/master_stock_get";
+        $.post(url, function(data) {
+            let stocks = JSON.parse(data);
+            stocks.forEach((stock) => {
+                console.log(stock.product_name);
+                add_stock_row(stock);
+            })
+        });
     });
 
     $(document).on('click', '#add_stock', function(e) {
+        e.preventDefault();
         let item = {};
 
         item.product_name = $('#product_name').val();
         item.pack_size = $('#pack_size').val();
         item.wash_price = $('#wash_price').val();
         item.rental_price = $('#rental_price').val();
+        item.rental_type = $('#rental_type').val();
 
         let url = base_url + "ajax/master_stock_add";
         $.post(url, {
                 item: JSON.stringify(item)
             })
             .done(function(data) {
-                item.stock_id = data;
+                item.master_stock_id = data;
                 add_stock_row(item);
 
                 $('#product_name').val("");
@@ -109,13 +118,15 @@
     });
 
     $(document).on('click', '#update_stock', function(e) {
+        e.preventDefault();
         let item = {};
 
-        item.stock_id = $(this).closest('.row').attr('.product_name');
+        item.master_stock_id = $(this).closest('.row').attr('data-stock-id');
         item.product_name = $(this).closest('.row').find('.product_name').val();
         item.pack_size = $(this).closest('.row').find('.pack_size').val();
         item.wash_price = $(this).closest('.row').find('.wash_price').val();
         item.rental_price = $(this).closest('.row').find('.rental_price').val();
+        item.rental_type = $(this).closest('.row').find('.rental_type').val();
 
         let url = base_url + "ajax/master_stock_update";
         $.post(url, {
@@ -129,28 +140,37 @@
 
     function add_stock_row(item) {
         let new_stock_row = `
-            <div class="row" data-stock-id="${item.stock_id}">
-                <div class="col-4">
+            <div class="row" data-stock-id="${item.master_stock_id}">
+                <div class="col-md-4">
                     <div class="form-group">
                         <input type="text" class="form-control product_name" placeholder="Name of a Product" value="${item.product_name}">
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-md-2">
                     <div class="form-group">
                         <input type="text" class="form-control pack_size" value="${item.pack_size}">
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-md-2">
                     <div class="form-group">
                         <input type="text" class="form-control wash_price" value="${item.wash_price}">
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-md-3  d-flex">
                     <div class="form-group">
                         <input type="text" class="form-control rental_price" value="${item.rental_price}">
+
+                    </div>
+                    <div class="form-group">
+                        <select name="rental_type" data-placeholder="Select Category" class="form-control rental_type">
+                            <option value="Daily" ${(item.rental_type == "Daily") ? "selected" : ""}>Daily</option>
+                            <option value="Weekly" ${(item.rental_type == "Weekly") ? "selected" : ""}>Weekly</option>
+                            <option value="Forthnightly" ${(item.rental_type == "Forthnightly") ? "selected" : ""}>Forthnightly</option>
+                            <option value="Monthly" ${(item.rental_type == "Monthly") ? "selected" : ""}>Monthly</option>
+                        </select>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-md-1">
                     <div class="form-group">
                         <a href="#" id="update_stock" class="btn  btn-primary btn-sm" title="Update Item">
                             <i class="icon-checkmark"> </i>
