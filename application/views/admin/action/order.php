@@ -27,8 +27,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4">Customer*</label>
-                                <div class="col-md-8">
+                                <label class="col-form-label col-md-3">Customer*</label>
+                                <div class="col-md-9">
                                     <select class="form-control" name="customer" id="customer">
                                         <?php foreach ($customers as $customer) {  ?>
                                             <option value="<?php echo $customer->userId; ?>"><?php echo $customer->firstName . ' ' . $customer->lastName; ?></option>
@@ -37,22 +37,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4">Delivery</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="delivery" id="delivery">
+                                <label class="col-form-label col-md-2">Delivery</label>
+                                <div class="col-md-5">
+                                    <select class="form-control" name="delivery_type" id="delivery_type">
                                         <?php foreach ($delivery_types as $delivery) { ?>
                                             <option value="<?php echo $delivery->unitId; ?>"><?php echo $delivery->title; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
+                                <div class="col-md-5">
+                                    <div class="input-group">
+                                        <span class="input-group-prepend">
+                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                        </span>
+                                        <input name="delivery_date" type="text" class="form-control pickadate delivery_date" placeholder="Choose date" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4">Purchase Order</label>
-                                <div class="col-md-8">
+                                <label class="col-form-label col-md-6">Purchase Order</label>
+                                <div class="col-md-6">
                                     <input type="text" class="form-control" name="purchase_order_number" id="purchase_order_number">
                                 </div>
                             </div>
@@ -122,16 +130,28 @@
         e.preventDefault();
         let item = {};
         item.customer = $('#customer').val();
-        item.delivery = $('#delivery').val();
+        item.delivery_type = $('#delivery_type').val();
         item.purchase_order_number = $('#purchase_order_number').val();
+        item.delivery_date = $("input[name='delivery_date_submit']").val();
 
-        let item_list = $('#product_list').
+        item.product_list = $("input[name='master_stock_id[]']")
+            .map(function() {
+                return $(this).val();
+            }).get();
+
+        item.total_piece = $("input[name='total_piece[]']")
+            .map(function() {
+                return $(this).val();
+            }).get();
 
         let url = base_url + "ajax/order_submit";
         $.post(url, {
             item: JSON.stringify(item)
         }, function(data) {
-            console.log(data);
+            if (data) {
+                alert("Order Placed Successfully!");
+                window.location.href = base_url + "orders";
+            }
 
         });
     })

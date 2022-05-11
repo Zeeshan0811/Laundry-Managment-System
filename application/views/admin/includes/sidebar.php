@@ -64,7 +64,7 @@
                         <li class="nav-item"><a href="<?php echo base_url('order')  ?>" class="nav-link">New Order</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('rental')  ?>" class="nav-link">New Rental Charge</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('pickup')  ?>" class="nav-link">New Pickup Order</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('master_stock_new')  ?>" class="nav-link">New Master Stock Item</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('master_stock')  ?>" class="nav-link">New Master Stock Item</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

@@ -85,13 +85,15 @@ $route['ajax/master_stock_get'] = 'ProductController/master_stock_get_ajax';
 $route['ajax/master_stock_add'] = 'ProductController/master_stock_add_ajax';
 $route['ajax/master_stock_update'] = 'ProductController/master_stock_update_ajax';
 
-$route['ajax/order_submit'] = 'AjaxController/order_submit';
 
 // Action Controller
 $route['order'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
 $route['rental'] = 'ActionController/rental';
 $route['pickup'] = 'ActionController/pickup';
+
+$route['ajax/order_submit'] = 'ActionController/order_submit';
+$route['ajax/fetch_orders'] = 'ActionController/fetch_orders';
 
 
 // Report Controller

@@ -17,18 +17,6 @@ class AjaxController extends CI_Controller
         }
     }
 
-    public function order_submit()
-    {
-        if (isPostBack()) {
-            $item = json_decode($this->input->post('item'));
-            $postBackData['customer'] = $this->input->post('customer');
-            $postBackData['delivery'] = $this->input->post('delivery');
-            $postBackData['purchase_order_number'] = $this->input->post('purchase_order_number');
-
-            $this->CommonModel->insert_data('nso_order', $postBackData);
-        }
-    }
-
 
     //Add Image
     public function file_upload()

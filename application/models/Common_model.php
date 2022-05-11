@@ -173,11 +173,9 @@ class Common_model extends CI_Model
 
 
     // get single data by many columns of a database table
-    function get_single_data_by_many_columns($table_name, $column_array, $order_column_name = null, $order = null)
+    function get_single_data_by_many_columns($table_name, $column_array)
     {
         $this->db->where($column_array);
-        if (isset($order_column_name) && isset($order))
-            $this->db->order_by($order_column_name, $order);
         return $this->db->get($table_name)->row();
     }
 
