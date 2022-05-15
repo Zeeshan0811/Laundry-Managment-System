@@ -75,6 +75,13 @@ class FrontendController extends CI_Controller
         $this->load->view('frontend_master_templete', $data);
     }
 
+    public function access_restriction()
+    {
+        $data['title'] = "Access Restriction";
+        $data['mainContent'] = $this->load->view('frontend/restriction.php', $data, true);
+        $this->load->view('frontend_master_templete', $data);
+    }
+
 
 
     public function contactmail()

@@ -24,6 +24,56 @@ if (!function_exists('image_upload')) {
 }
 
 
+if (!function_exists('status_text')) {
+    function status_text($type)
+    {
+        switch ($type) {
+            case 1:
+                $text = "Active";
+                break;
+            case 2:
+                $text = "On Hold";
+                break;
+            case 3:
+                $text = "Deactived";
+                break;
+            case 4:
+                $text = "Canceled";
+                break;
+            default:
+                $text = "Invalid";
+                break;
+        }
+
+        return $text;
+    }
+}
+if (!function_exists('status_color')) {
+    function status_color($type)
+    {
+        switch ($type) {
+            case 1:
+                $text = "bg-success";
+                break;
+            case 2:
+                $text = "bg-warning";
+                break;
+            case 3:
+                $text = "bg-danger";
+                break;
+            case 4:
+                $text = "bg-danger";
+                break;
+            default:
+                $text = "bg-secondary";
+                break;
+        }
+
+        return $text;
+    }
+}
+
+
 if (!function_exists('night_calculator')) {
     function night_calculator($arrive, $departure)
     {

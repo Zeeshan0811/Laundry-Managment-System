@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $route['default_controller'] = 'FrontendController/index';
+$route['access-restriction'] = 'FrontendController/access_restriction';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
@@ -45,8 +46,18 @@ $route['confirmation'] = 'FrontendController/confirmation';
 $route['contactmail'] = 'FrontendController/contactmail';
 $route['emailconfirmation'] = 'FrontendController/emailconfirmation';
 
+// Master Admin Controller
+$route['ma/dashboard'] = 'MasterAdminController/dashboard';
+$route['ma/vendors'] = 'MasterAdminController/vendors';
+$route['ma/vendor_add'] = 'MasterAdminController/vendor_add';
+
+$route['ma/setting/user'] = 'MasterAdminController/setting_user';
+$route['ma/setting/company'] = 'MasterAdminController/setting_company';
+$route['ma/setting/password'] = 'MasterAdminController/setting_password';
+
 
 // Admin Panel
+$route['login'] = 'AdminController/login';
 $route['admin'] = 'AdminController/index';
 $route['admin/login'] = 'AdminController/checkLogin_admin';
 $route['admin/logout'] = 'AdminController/logout_admin';
