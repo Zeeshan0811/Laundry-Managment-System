@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2022 at 02:18 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Generation Time: May 20, 2022 at 07:22 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -78,7 +79,10 @@ CREATE TABLE `nso_allsetup` (
 INSERT INTO `nso_allsetup` (`unitId`, `type`, `uri`, `title`, `order_by`, `updated_by`, `updated_at`, `created_at`) VALUES
 (1, '1', '', 'Delivery & Pickup', 1, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54'),
 (2, '1', '', 'Delivery Only', 2, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54'),
-(3, '1', '', 'Pickup Only', 3, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54');
+(3, '1', '', 'Pickup Only', 3, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54'),
+(5, '2', '', 'Wash Order', 1, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54'),
+(6, '2', '', 'Rental Order', 2, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54'),
+(7, '2', '', 'Pickup Order', 3, 2, '0000-00-00 00:00:00', '2022-05-02 03:17:54');
 
 -- --------------------------------------------------------
 
@@ -127,7 +131,8 @@ CREATE TABLE `nso_form` (
 --
 
 INSERT INTO `nso_form` (`form_id`, `title`) VALUES
-(1, 'Order Delivery Type');
+(1, 'Delivery Type'),
+(2, 'Order Type');
 
 -- --------------------------------------------------------
 
@@ -155,16 +160,14 @@ CREATE TABLE `nso_generalledger` (
 --
 
 INSERT INTO `nso_generalledger` (`generalLedgerId`, `generalsId`, `transectionId`, `productId`, `unit_price`, `quantity`, `fee`, `rental_type`, `discount`, `total`, `narration`, `created_at`) VALUES
-(1, 2, '1651992300', 11, '99999.00', 6, '0.00', '', '0.00', '599994.00', '', '2022-05-08 06:45:00'),
-(2, 2, '1651992300', 12, '269.00', 4, '0.00', '', '0.00', '1076.00', '', '2022-05-08 06:45:00'),
-(3, 5, '1651992413', 11, '99999.00', 6, '0.00', 'Weekly', '0.00', '599994.00', '', '2022-05-08 06:46:53'),
-(4, 5, '1651992413', 12, '269.00', 4, '0.00', 'Monthly', '0.00', '1076.00', '', '2022-05-08 06:46:53'),
-(5, 6, '1651994685', 11, '99999.00', 4, '0.00', 'Weekly', '0.00', '399996.00', '', '2022-05-08 07:24:45'),
-(6, 6, '1651994685', 12, '269.00', 6, '0.00', 'Monthly', '0.00', '1614.00', '', '2022-05-08 07:24:45'),
-(7, 7, '1651994686', 11, '99999.00', 4, '0.00', 'Weekly', '0.00', '399996.00', '', '2022-05-08 07:24:46'),
-(8, 7, '1651994686', 12, '269.00', 6, '0.00', 'Monthly', '0.00', '1614.00', '', '2022-05-08 07:24:46'),
-(9, 8, '1651994834', 11, '99999.00', 3, '0.00', 'Weekly', '0.00', '299997.00', '', '2022-05-08 07:27:14'),
-(10, 8, '1651994834', 12, '269.00', 4, '0.00', 'Monthly', '0.00', '1076.00', '', '2022-05-08 07:27:14');
+(11, 9, '1652971092', 22, '5.00', 5, '0.00', 'Weekly', '0.00', '25.00', '', '2022-05-19 14:38:12'),
+(12, 9, '1652971092', 23, '11.00', 10, '0.00', 'Weekly', '0.00', '110.00', '', '2022-05-19 14:38:12'),
+(13, 10, '1652973100', 22, '5.00', 3, '0.00', 'Weekly', '0.00', '15.00', '', '2022-05-19 15:11:40'),
+(14, 10, '1652973100', 23, '11.00', 6, '0.00', 'Weekly', '0.00', '66.00', '', '2022-05-19 15:11:40'),
+(15, 11, '1653037012', 22, '5.00', 4, '0.00', 'Weekly', '0.00', '20.00', '', '2022-05-20 08:56:52'),
+(16, 11, '1653037012', 23, '11.00', 6, '0.00', 'Weekly', '0.00', '66.00', '', '2022-05-20 08:56:52'),
+(17, 12, '1653038296', 22, '5.00', 5, '0.00', 'Weekly', '0.00', '25.00', '', '2022-05-20 09:18:16'),
+(18, 12, '1653038296', 23, '11.00', 7, '0.00', 'Weekly', '0.00', '77.00', '', '2022-05-20 09:18:16');
 
 -- --------------------------------------------------------
 
@@ -175,13 +178,15 @@ INSERT INTO `nso_generalledger` (`generalLedgerId`, `generalsId`, `transectionId
 CREATE TABLE `nso_generals` (
   `generalId` int(11) NOT NULL,
   `transectionId` varchar(55) NOT NULL,
-  `formId` int(11) NOT NULL COMMENT '1 = Order',
+  `purchase_order_number` varchar(55) NOT NULL,
+  `order_type` int(11) NOT NULL COMMENT 'form id = 2',
   `date` date NOT NULL,
   `userId` int(11) NOT NULL,
-  `customer` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `customer` int(11) NOT NULL COMMENT 'Company Id from nso_vendor Table',
   `delivery_type` int(11) NOT NULL COMMENT 'All Setup type = 1',
   `delivery_date` date NOT NULL,
-  `purchase_order_number` varchar(55) NOT NULL,
+  `pickup_date` date NOT NULL,
   `amount` decimal(10,2) NOT NULL,
   `fee` decimal(10,2) NOT NULL,
   `discount` decimal(10,2) NOT NULL,
@@ -189,7 +194,7 @@ CREATE TABLE `nso_generals` (
   `narration` text NOT NULL,
   `payment_type` enum('1','2','3','4') NOT NULL COMMENT '1 = Cash On Delivery, 2 = Online Payment, 3 = Advance Paid, 4 = None',
   `payment_status` enum('1','2','3','4') NOT NULL COMMENT '1 = Pending, 2 = Processing, 3 = Successful, 4= Canceled	',
-  `order_status` enum('1','2','3','4') NOT NULL COMMENT '1 = Pending, 2 = Packing, 3 = Packed, 4 = Dispatched',
+  `order_status` enum('1','2','3','4','5') NOT NULL COMMENT '1 = Pending, 2 = Packing, 3 = Packed, 4 = Dispatched, 5 = Canceled',
   `invoice_status` enum('1','2','3','4') NOT NULL COMMENT '1 = Not sent, 2 = Sent',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -198,15 +203,11 @@ CREATE TABLE `nso_generals` (
 -- Dumping data for table `nso_generals`
 --
 
-INSERT INTO `nso_generals` (`generalId`, `transectionId`, `formId`, `date`, `userId`, `customer`, `delivery_type`, `delivery_date`, `purchase_order_number`, `amount`, `fee`, `discount`, `grandAmount`, `narration`, `payment_type`, `payment_status`, `order_status`, `invoice_status`, `created_at`) VALUES
-(1, '1651992277', 2, '2022-05-08', 2, 6, 1, '2022-05-18', '545', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 06:44:37'),
-(2, '1651992300', 2, '2022-05-08', 2, 6, 1, '2022-05-18', '545', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 06:45:00'),
-(3, '1651992365', 2, '2022-05-08', 2, 6, 1, '2022-05-18', '545', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 06:46:05'),
-(4, '1651992394', 2, '2022-05-08', 2, 6, 1, '2022-05-18', '545', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 06:46:34'),
-(5, '1651992413', 2, '2022-05-08', 2, 6, 1, '2022-05-18', '545', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 06:46:53'),
-(6, '1651994685', 2, '2022-05-08', 2, 6, 1, '2022-05-08', '5646', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 07:24:45'),
-(7, '1651994686', 2, '2022-05-08', 2, 6, 1, '2022-05-08', '5646', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 07:24:46'),
-(8, '1651994834', 2, '2022-05-08', 2, 6, 1, '2022-05-08', '', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-08 07:27:14');
+INSERT INTO `nso_generals` (`generalId`, `transectionId`, `purchase_order_number`, `order_type`, `date`, `userId`, `vendor_id`, `customer`, `delivery_type`, `delivery_date`, `pickup_date`, `amount`, `fee`, `discount`, `grandAmount`, `narration`, `payment_type`, `payment_status`, `order_status`, `invoice_status`, `created_at`) VALUES
+(9, '1652971092', '123', 5, '2022-05-19', 22, 1, 2, 1, '2022-05-21', '2022-05-25', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '4', '1', '2022-05-19 14:38:12'),
+(10, '1652973100', '2255', 5, '2022-05-19', 22, 1, 2, 1, '2022-05-24', '2022-05-28', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '2', '1', '2022-05-19 15:11:40'),
+(11, '1653037012', '9988', 7, '2022-05-20', 22, 1, 3, 3, '2022-05-20', '2022-05-20', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '1', '1', '2022-05-20 08:56:52'),
+(12, '1653038296', '999', 5, '2022-05-20', 22, 1, 3, 1, '2022-05-27', '2022-05-30', '0.00', '0.00', '0.00', '0.00', '', '4', '1', '2', '1', '2022-05-20 09:18:16');
 
 -- --------------------------------------------------------
 
@@ -252,12 +253,15 @@ CREATE TABLE `nso_inbox` (
 CREATE TABLE `nso_master_stock` (
   `master_stock_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `categories` text NOT NULL,
   `pack_size` int(11) NOT NULL,
   `wash_price` decimal(10,2) NOT NULL,
   `rental_price` decimal(10,2) NOT NULL,
   `rental_type` enum('Daily','Weekly','Forthnightly','Monthly') NOT NULL,
+  `lost_price` decimal(10,2) NOT NULL,
   `stock_code` varchar(255) NOT NULL,
   `gl_code` varchar(255) NOT NULL,
   `grams` decimal(10,2) NOT NULL,
@@ -271,9 +275,9 @@ CREATE TABLE `nso_master_stock` (
 -- Dumping data for table `nso_master_stock`
 --
 
-INSERT INTO `nso_master_stock` (`master_stock_id`, `user_id`, `product_name`, `categories`, `pack_size`, `wash_price`, `rental_price`, `rental_type`, `stock_code`, `gl_code`, `grams`, `max_usage`, `updated_by`, `updated_at`, `created_at`) VALUES
-(11, 2, 'Apron', '', 5, '22.00', '99999.00', 'Weekly', '', '', '0.00', 0, 2, '2022-05-02 03:37:59', '2022-05-01 05:14:18'),
-(12, 2, 'Begs', '', 1, '259.00', '269.00', 'Monthly', '', '', '0.00', 0, 2, '2022-05-02 03:38:03', '2022-05-01 05:15:59');
+INSERT INTO `nso_master_stock` (`master_stock_id`, `user_id`, `vendor_id`, `customer_id`, `product_name`, `categories`, `pack_size`, `wash_price`, `rental_price`, `rental_type`, `lost_price`, `stock_code`, `gl_code`, `grams`, `max_usage`, `updated_by`, `updated_at`, `created_at`) VALUES
+(22, 22, 1, 0, 'Apron', '', 1, '30.00', '5.00', 'Weekly', '20.00', '', '', '0.00', 0, 22, '2022-05-19 13:22:43', '2022-05-19 13:22:43'),
+(23, 22, 1, 0, 'Linen', '', 3, '20.00', '11.00', 'Weekly', '15.00', '', '', '0.00', 0, 22, '2022-05-19 13:26:19', '2022-05-19 13:26:19');
 
 -- --------------------------------------------------------
 
@@ -390,13 +394,14 @@ CREATE TABLE `nso_user` (
   `address` text NOT NULL,
   `address_line_2` varchar(555) NOT NULL,
   `city` varchar(255) NOT NULL,
+  `state` varchar(99) NOT NULL,
   `country` varchar(255) NOT NULL,
   `zip` varchar(25) NOT NULL,
   `designation` int(11) NOT NULL,
   `salary` decimal(10,2) NOT NULL,
   `photo` text NOT NULL,
-  `custom_details` text NOT NULL,
   `status` enum('1','2','3','4') NOT NULL COMMENT '1 = Active, 2 = Hold, 3 = Deactivated, 4 = Cancel',
+  `created_by` int(11) NOT NULL,
   `updatedBy` int(11) NOT NULL,
   `updatedAt` datetime NOT NULL,
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
@@ -406,20 +411,11 @@ CREATE TABLE `nso_user` (
 -- Dumping data for table `nso_user`
 --
 
-INSERT INTO `nso_user` (`userId`, `type`, `firstName`, `lastName`, `phone`, `email`, `username`, `password`, `rawPass`, `address`, `address_line_2`, `city`, `country`, `zip`, `designation`, `salary`, `photo`, `custom_details`, `status`, `updatedBy`, `updatedAt`, `createdAt`) VALUES
-(1, '2', 'Zeeshan', 'Akhtar', '', 'Zeeshan@admin.com', 'Zeeshan@admin.com', 'e10adc3949ba59abbe56e057f20f883e', '', '', '', '', '', '', 0, '0.00', '', '', '', 0, '0000-00-00 00:00:00', '2021-07-10 17:59:19'),
-(2, '4', 'Yoweri', 'Laundries', '54654645', 'admin@admin.com', 'admin@admin.com', 'e10adc3949ba59abbe56e057f20f883e', '', 'NSW 2450, Australia ', '', '', '', '', 0, '0.00', '', '', '', 0, '0000-00-00 00:00:00', '2021-07-10 17:59:19'),
-(4, '1', 'Zeeshan', 'Akhtar', '465464', 'Zeeshan0811@gmail.com', 'Zeeshan0811@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Road#06', 'Mohammadpur', 'Dhaka', 'Bangladesh', '4545', 0, '0.00', '', '', '', 0, '0000-00-00 00:00:00', '2021-08-16 15:28:17'),
-(5, '1', 'Zeeshan', 'Akhtar', '465464', 'Zeeshan@tlntrip.com', '', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Road#06', 'Mohammadpur', 'Dhaka', 'Bangladesh', '1207', 0, '0.00', '', '', '', 0, '0000-00-00 00:00:00', '2021-08-24 14:23:38'),
-(6, '2', 'Shaan Laundry', '', 'werwerww@asdas', 'asd2342342', '', '1ef02a77f3b6ab87fb96656548f816ea', '330351', '', '', '', '', '', 0, '0.00', '', '{\"trading_name\":\"sdfsdf -- \",\"legal_name\":\" sfdgdfgwe wer wr\",\"abn\":\"wer wrew\",\"customer_code\":\"rwerw rw\",\"gl_code\":\"erwe rwer\",\"business_email\":\"werwerww@asdas\",\"business_phone\":\"asd2342342\",\"customer_status\":null,\"customer_group\":\"\",\"delivery_add_line_1\":\"dfsd\",\"delivery_add_line_2\":\"rte --\",\"delivery_suburb\":\"tyuu\",\"delivery_state\":\"yui\",\"delivery_postcode\":\"uiou\",\"billing_add_line_1\":\"dsdvx\",\"billing_add_line_2\":\"xcvdd\",\"billing_suburb\":\"fdgdg\",\"billing_state\":\"fghf\",\"billing_postcode\":\"tyutyu\"}', '', 2, '0000-00-00 00:00:00', '2022-04-23 23:11:11'),
-(7, '8', 'Masters', 'Admin', '54654645', 'ma@admin.com', 'ma@admin.com', '6797f82f504379e72c59879b12594d39', '', 'NSW 2450, Australia ', '', '', '', '', 0, '0.00', '', '', '', 0, '0000-00-00 00:00:00', '2021-07-10 17:59:19'),
-(8, '4', 'Mark', 'Jones', '54464645', 'rl@gmail.com', 'rl@gmail.com', '5cbac0db3ab6f167f95fe13684969b87', '607336', '', '', '', '', '', 0, '0.00', '', '', '', 7, '2022-05-12 16:20:17', '2022-05-12 10:20:17'),
-(9, '4', 'Peter', 'Shaun', '44654', 'perter@gmail.com', 'perter@gmail.com', '4a2aabb1f1e1ba2465bba17e9763d6b8', '267821', '', '', '', '', '', 0, '0.00', '', '', '', 7, '2022-05-12 16:22:08', '2022-05-12 10:22:08'),
-(10, '4', 'Derik', 'Jackson', '4546461', 'derik@gmial.com', 'derik@gmial.com', 'a89eb3eee1a7e5caf87762f1c27c2823', '222504', '', '', '', '', '', 0, '0.00', '', '', '', 7, '2022-05-12 16:30:32', '2022-05-12 10:30:32'),
-(11, '4', 'Jafor', 'Iqbal', '464564', 'jafor@gmail.com', 'jafor@gmail.com', 'f9121433c11ca958dab09dea85767a7a', '273446', '', '', '', '', '', 0, '0.00', '', '', '1', 7, '2022-05-12 16:50:18', '2022-05-12 10:50:18'),
-(12, '4', 'hkjh', 'jhjkh', 'jjkh654645', 'jgjhG', 'jgjhG', '46d2cc69840d6097950a02df16fa1d52', '667264', '', '', '', '', '', 0, '0.00', '', '', '1', 7, '2022-05-12 16:51:31', '2022-05-12 10:51:31'),
-(13, '4', 'hkjh', 'jhjkh', 'jjkh654645', 'jgjhG', 'jgjhG', 'c426d89c80c04636a079da66caabf6c0', '136863', '', '', '', '', '', 0, '0.00', '', '', '1', 7, '2022-05-12 16:51:51', '2022-05-12 10:51:51'),
-(14, '4', 'hkjh', 'jhjkh', 'jjkh654645', 'jgjhG', 'jgjhG', '7a6316dbbe3fd792094a0dc9165139ce', '323099', '', '', '', '', '', 0, '0.00', '', '', '1', 7, '2022-05-12 16:52:11', '2022-05-12 10:52:11');
+INSERT INTO `nso_user` (`userId`, `type`, `firstName`, `lastName`, `phone`, `email`, `username`, `password`, `rawPass`, `address`, `address_line_2`, `city`, `state`, `country`, `zip`, `designation`, `salary`, `photo`, `status`, `created_by`, `updatedBy`, `updatedAt`, `createdAt`) VALUES
+(1, '8', 'Zeeshan', 'Akhtar', '484654674', 'ma@admin.com', 'ma@admin.com', '6797f82f504379e72c59879b12594d39', '', 'Sydney, Australia', '', '', '', '', '', 0, '0.00', '', '1', 0, 0, '0000-00-00 00:00:00', '2021-07-10 17:59:19'),
+(22, '4', 'Michel', 'Johnson', '654646', 'admin@admin.com', 'admin@admin.com', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Park Road', '26', 'Sydney', 'NSW', 'Australia', '365', 0, '0.00', '', '1', 0, 22, '2022-05-18 20:47:54', '2022-05-18 14:47:54'),
+(23, '2', 'Mollie ', 'Jacob', '456546', 'customer@admin.com', 'customer@admin.com', 'e10adc3949ba59abbe56e057f20f883e', '123456', 'Road 25', 'Belford', 'Sydney', 'NSW', 'Australia', '25878', 0, '0.00', '', '1', 22, 22, '0000-00-00 00:00:00', '2022-05-19 06:15:05'),
+(33, '2', 'Amelia', 'Stefina', '6546544', 'amelia@gmail.com', 'amelia@gmail.com', 'b201c27b9b7afa7591ca6badc1a1722b', '519514', '', '', '', '', '', '', 0, '0.00', '', '1', 22, 22, '0000-00-00 00:00:00', '2022-05-20 08:22:16');
 
 -- --------------------------------------------------------
 
@@ -431,6 +427,8 @@ CREATE TABLE `nso_user_vendor_access` (
   `nso_access_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `vendor_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `company_id` int(11) NOT NULL,
   `access_type` enum('1','2','3','4','5','6','7','8') NOT NULL COMMENT '2 = Customer, \r\n4 = Vendor\r\n8 = Master Admin',
   `status` enum('1','2','3','4') NOT NULL COMMENT '1 = Active, 2 = Hold, 3 = Deactivated, 4 = Cancel',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -440,11 +438,10 @@ CREATE TABLE `nso_user_vendor_access` (
 -- Dumping data for table `nso_user_vendor_access`
 --
 
-INSERT INTO `nso_user_vendor_access` (`nso_access_id`, `user_id`, `vendor_id`, `access_type`, `status`, `created_at`) VALUES
-(1, 14, 1, '4', '1', '2022-05-12 10:52:11'),
-(2, 14, 2, '4', '1', '2022-05-12 10:52:11'),
-(3, 14, 3, '4', '1', '2022-05-12 10:52:11'),
-(4, 14, 4, '4', '1', '2022-05-12 10:52:11');
+INSERT INTO `nso_user_vendor_access` (`nso_access_id`, `user_id`, `vendor_id`, `customer_id`, `company_id`, `access_type`, `status`, `created_at`) VALUES
+(1, 22, 1, 0, 0, '4', '1', '2022-05-18 14:47:54'),
+(2, 22, 1, 23, 2, '2', '1', '2022-05-19 06:15:05'),
+(12, 22, 1, 33, 3, '2', '1', '2022-05-20 08:22:16');
 
 -- --------------------------------------------------------
 
@@ -454,6 +451,7 @@ INSERT INTO `nso_user_vendor_access` (`nso_access_id`, `user_id`, `vendor_id`, `
 
 CREATE TABLE `nso_vendors` (
   `vendor_id` int(11) NOT NULL,
+  `type` enum('1','2','3','4','5','6','7','8') NOT NULL COMMENT '2 = Customer, 4 = Vendor 8 = Master Admin',
   `trading_name` varchar(255) NOT NULL,
   `legal_name` varchar(255) NOT NULL,
   `abn` varchar(99) NOT NULL,
@@ -473,7 +471,7 @@ CREATE TABLE `nso_vendors` (
   `billing_state` varchar(55) NOT NULL,
   `billing_postcode` varchar(55) NOT NULL,
   `billing_country` varchar(55) NOT NULL,
-  `vendor_status` enum('1','2','3','4') NOT NULL DEFAULT '1' COMMENT '1 = Active, \r\n2 = Hold,\r\n3 = Terminated',
+  `vendor_status` enum('1','2','3','4') NOT NULL DEFAULT '1' COMMENT '1 = Active, 2 = Hold, 3 = Deactivated, 4 = Cancel',
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -484,11 +482,10 @@ CREATE TABLE `nso_vendors` (
 -- Dumping data for table `nso_vendors`
 --
 
-INSERT INTO `nso_vendors` (`vendor_id`, `trading_name`, `legal_name`, `abn`, `customer_code`, `gl_code`, `business_email`, `business_phone`, `delivery_add_line_1`, `delivery_add_line_2`, `delivery_suburb`, `delivery_state`, `delivery_postcode`, `delivery_country`, `billing_add_line_1`, `billing_add_line_2`, `billing_suburb`, `billing_state`, `billing_postcode`, `billing_country`, `vendor_status`, `created_by`, `updated_by`, `updated_at`, `created_at`) VALUES
-(1, 'Red Laundry', 'RL', '25465', '', '', 'rl@gmail.com', '54464645', '', '', '', '', '', '', '', '', '', '', '', '', '1', 7, 7, '2022-05-12 10:20:17', '2022-05-12 10:20:17'),
-(2, 'Pacific Laundry', 'PL', '654654', '', '', 'Pacific@laundry.com', '2564654', '', '', '', '', '', '', '', '', '', '', '', '', '1', 7, 7, '2022-05-12 10:22:08', '2022-05-12 10:22:08'),
-(3, 'Stone Laundry', 'SLN', '5484654', '', '', 'sln@gmail.com', '4846456', '', '', '', '', '', '', '', '', '', '', '', '', '1', 7, 7, '2022-05-12 10:30:32', '2022-05-12 10:30:32'),
-(4, 'Stone Laundry', 'SLN', '5484654', '', '', 'sln@gmail.com', '4846456', '', '', '', '', '', '', '', '', '', '', '', '', '1', 7, 7, '2022-05-12 10:30:32', '2022-05-12 10:30:32');
+INSERT INTO `nso_vendors` (`vendor_id`, `type`, `trading_name`, `legal_name`, `abn`, `customer_code`, `gl_code`, `business_email`, `business_phone`, `delivery_add_line_1`, `delivery_add_line_2`, `delivery_suburb`, `delivery_state`, `delivery_postcode`, `delivery_country`, `billing_add_line_1`, `billing_add_line_2`, `billing_suburb`, `billing_state`, `billing_postcode`, `billing_country`, `vendor_status`, `created_by`, `updated_by`, `updated_at`, `created_at`) VALUES
+(1, '4', 'Sturck Laundry', 'STL', '546546', '', '', 'stl@gmail.com', '1654654', '', '', '', '', '', '', '', '', '', '', '', '', '1', 1, 1, '2022-05-18 14:47:54', '2022-05-18 14:47:54'),
+(2, '2', 'Hotel Blue Stone', 'HBS', '154454', 'hjks', 'hks', 'hotelblue@gmail.com', '5488485', 'Road 55/C', 'Lake view', 'Sydney', 'NSW', '654654', 'Australia', 'Road 55/C', 'Lake view', 'Sydney', 'NSW', '654654', 'Australia', '1', 22, 22, '2022-05-19 06:15:05', '2022-05-19 06:15:05'),
+(3, '2', 'Sea Bird', 'ksjdj', 'k', 'j', 'klj', 'jkl', 'j', 'h', 'jh', 'kj', 'kj', 'hkjh', '', 'jhk', 'hjk', 'jhkj', '', 'kjh', '', '1', 22, 22, '2022-05-20 08:22:16', '2022-05-20 08:22:16');
 
 --
 -- Indexes for dumped tables
@@ -616,7 +613,7 @@ ALTER TABLE `nso_account`
 -- AUTO_INCREMENT for table `nso_allsetup`
 --
 ALTER TABLE `nso_allsetup`
-  MODIFY `unitId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `unitId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `nso_cateogory`
@@ -634,19 +631,19 @@ ALTER TABLE `nso_deleted_data`
 -- AUTO_INCREMENT for table `nso_form`
 --
 ALTER TABLE `nso_form`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `nso_generalledger`
 --
 ALTER TABLE `nso_generalledger`
-  MODIFY `generalLedgerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `generalLedgerId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `nso_generals`
 --
 ALTER TABLE `nso_generals`
-  MODIFY `generalId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `generalId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `nso_images`
@@ -664,7 +661,7 @@ ALTER TABLE `nso_inbox`
 -- AUTO_INCREMENT for table `nso_master_stock`
 --
 ALTER TABLE `nso_master_stock`
-  MODIFY `master_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `master_stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `nso_product`
@@ -688,19 +685,19 @@ ALTER TABLE `nso_sysconfig`
 -- AUTO_INCREMENT for table `nso_user`
 --
 ALTER TABLE `nso_user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `nso_user_vendor_access`
 --
 ALTER TABLE `nso_user_vendor_access`
-  MODIFY `nso_access_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `nso_access_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `nso_vendors`
 --
 ALTER TABLE `nso_vendors`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

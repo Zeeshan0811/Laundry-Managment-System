@@ -74,6 +74,7 @@ if (!function_exists('status_color')) {
 }
 
 
+
 if (!function_exists('night_calculator')) {
     function night_calculator($arrive, $departure)
     {

@@ -19,6 +19,7 @@
                                 <th>SL.</th>
                                 <th>Vendor Details</th>
                                 <th>User Information</th>
+                                <th>Customer</th>
                                 <th>Status</th>
                                 <th>Created At</th>
                             </tr>
@@ -43,10 +44,13 @@
                                         Email: <?php echo $user->phone; ?> </br>
                                         Phone: <?php echo $user->email; ?> </br>
                                     </td>
+                                    <td>0</td>
                                     <td>
-                                        <span class="badge <?php echo status_color($user_access->status); ?>"><?php echo status_text($user_access->status); ?></span>
+                                        <span class="change_status badge <?php echo status_color($user_access->status); ?>" data-current-status="<?php echo $user_access->status; ?>" data-user-id="<?php echo $user->userId; ?>" data-access-id="<?php echo $user_access->nso_access_id; ?>">
+                                            <?php echo status_text($user_access->status); ?>
+                                        </span>
                                     </td>
-                                    <td><?php echo $item->created_at; ?></td>
+                                    <td><?php echo date('F j, Y, g:i a', strtotime($item->created_at)); ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -56,3 +60,27 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).on('click', '.change_status', function(e) {
+        e.preventDefault();
+
+        let current_status = $(this).attr('data-current-status');
+        let user_id = $(this).attr('data-user-id');
+        let access_id = $(this).attr('data-access-id');
+
+        let url = base_url + 'ajax/change_user_status';
+
+        $.post(url, {
+            user_id,
+            current_status,
+            access_id
+        }, function(data) {
+            if (data) {
+                alert("Status has changed Successfully!");
+                location.reload();
+            }
+
+        });
+    })
+</script>

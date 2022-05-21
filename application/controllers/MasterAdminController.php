@@ -37,8 +37,9 @@ class MasterAdminController extends CI_Controller
     public function vendor_add()
     {
         if (isPostBack()) {
+            $this->db->trans_start();
             // User
-            $postBackData['type'] = 4;
+            $postBackData['type'] = $vendorData['type'] =  $accessData['access_type'] =  4;
             $postBackData['firstName'] = $this->input->post('firstName');
             $postBackData['lastName'] = $this->input->post('lastName');
             $postBackData['email'] =  $postBackData['username'] = $this->input->post('email');
@@ -60,13 +61,20 @@ class MasterAdminController extends CI_Controller
             $vendorData['vendor_status'] = 1;
 
             $vendorId = $accessData['vendor_id'] =  $this->CommonModel->insert_data('nso_vendors', $vendorData);
-
-            $accessData['access_type'] = 4;
             $accessData['status'] = 1;
 
-            $this->CommonModel->insert_data('nso_user_vendor_access', $accessData);
 
-            message('Invitation has sent successfully!...');
+            $this->CommonModel->insert_data('nso_user_vendor_access', $accessData);
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                exception("An unexpected error has occurred. This action cannot be completed.!!");
+            } else {
+                $this->db->trans_commit();
+                message('Invitation has sent successfully!...');
+            }
+
             redirect(base_url('ma/vendors'));
         }
         $data['title'] = "Add New Customer";

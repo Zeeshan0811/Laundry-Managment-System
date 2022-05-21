@@ -19,7 +19,18 @@ class ReportController extends CI_Controller
     public function reports()
     {
         $data['title'] = "Reports";
+        $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
+        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
         $data['mainContent'] = $this->load->view('admin/report/reports.php', $data, true);
+        $this->load->view('admin_master_templete', $data);
+    }
+
+    public function view_invoice($transectionId)
+    {
+        $data['title'] = "Invoice";
+        $data['invoice'] = $this->CommonModel->get_single_invoice_detail($transectionId);
+        // dumpVar($data);
+        $data['mainContent'] = $this->load->view('admin/report/invoice.php', $data, true);
         $this->load->view('admin_master_templete', $data);
     }
 }

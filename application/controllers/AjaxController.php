@@ -17,6 +17,21 @@ class AjaxController extends CI_Controller
         }
     }
 
+    // Change User status
+    public function change_user_status()
+    {
+        if (isPostBack()) {
+            // dumpVar($_POST);
+            $user_id = $this->input->post('user_id');
+            $current_status = $this->input->post('current_status');
+            $access_id = $this->input->post('access_id');
+
+            $change_status['status'] = ($current_status == 1) ? 2 : 1;
+
+            echo $this->CommonModel->update_data('nso_user_vendor_access', $change_status, 'nso_access_id', $access_id);
+        }
+    }
+
 
     //Add Image
     public function file_upload()

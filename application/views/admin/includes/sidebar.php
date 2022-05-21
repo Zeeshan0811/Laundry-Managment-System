@@ -29,7 +29,7 @@
                     <div class="media-body">
                         <div class="media-title font-weight-semibold"><?php echo $current_user->firstName . ' ' .  $current_user->lastName;  ?></div>
                         <div class="font-size-xs opacity-50">
-                            <i class="icon-pin font-size-sm"></i> &nbsp;<?php echo $current_user->address;  ?>
+                            <i class="icon-pin font-size-sm"></i> &nbsp;<?php echo $current_user->city . ', ' . $current_user->state . ', ' . $current_user->country;  ?>
                         </div>
                     </div>
 
@@ -64,7 +64,6 @@
                         <li class="nav-item"><a href="<?php echo base_url('order')  ?>" class="nav-link">New Order</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('rental')  ?>" class="nav-link">New Rental Charge</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('pickup')  ?>" class="nav-link">New Pickup Order</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('master_stock')  ?>" class="nav-link">New Master Stock Item</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -102,8 +101,9 @@
                     <a href="#" class="nav-link"><i class="icon-gear"></i> <span>Settings</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
                         <li class="nav-item"><a href="<?php echo base_url('setting/user')  ?>" class="nav-link">My Profile</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('setting/company')  ?>" class="nav-link">My Laundry</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/vendor')  ?>" class="nav-link">Vendor Profile</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('setting/password')  ?>" class="nav-link">Change Password</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/user_access')  ?>" class="nav-link">User Access</a></li>
                     </ul>
                 </li>
             </ul>

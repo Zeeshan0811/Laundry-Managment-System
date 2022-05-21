@@ -19,8 +19,9 @@ class ActionController extends CI_Controller
     public function order()
     {
         $data['title'] = "Create New Order";
+        $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
         $data['delivery_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 1, 'order_by', 'ASC');
-        $data['customers'] = $this->CommonModel->get_data_list_by_multiple_columns('nso_user', '*', array('type' => 1, 'updatedBy' => $this->session->userdata('userId')), 'firstName', 'ASC');
+        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
         $data['products'] = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'user_id', $this->session->userdata('userId'), 'product_name', 'ASC');
         $data['mainContent'] = $this->load->view('admin/action/order.php', $data, true);
         $this->load->view('admin_master_templete', $data);
@@ -31,12 +32,14 @@ class ActionController extends CI_Controller
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
             $generalsData['transectionId'] = $transectionId = time();
-            $generalsData['formId'] = 2;
+            $generalsData['order_type'] = $item->order_type;
             $generalsData['date'] = date('Y-m-d');
             $generalsData['userId'] = $this->session->userdata('userId');
+            $generalsData['vendor_id'] = $vendor_id = $this->session->userdata('vendor_id');
             $generalsData['customer'] = $item->customer;
             $generalsData['delivery_type'] =  $item->delivery_type;
             $generalsData['delivery_date'] = $item->delivery_date;
+            $generalsData['pickup_date'] = $item->pickup_date;
             $generalsData['purchase_order_number'] = $item->purchase_order_number;
             $generalsData['payment_type'] = 4;
             $generalsData['payment_status'] = 1;
@@ -51,7 +54,7 @@ class ActionController extends CI_Controller
 
             $i = 0;
             foreach ($product_list as $productId) {
-                $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'user_id' => $this->session->userdata('userId')));
+                $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
 
                 $ledger_item['generalsId'] = $generalId;
                 $ledger_item['transectionId'] = $transectionId;
@@ -72,20 +75,44 @@ class ActionController extends CI_Controller
         }
     }
 
+    public function orders()
+    {
+        $data['title'] = "Orders";
+        $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
+        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
+        $data['mainContent'] = $this->load->view('admin/action/orders.php', $data, true);
+        $this->load->view('admin_master_templete', $data);
+    }
+
     public function fetch_orders()
     {
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
-            $where['userId'] =  $this->session->userdata('userId');
-            $where['customer'] =  $item->customer;
-            $where['order_status'] =  $item->order_status;
 
-            if (!empty($item->order_id)) {
-                $where['transectionId'] =  $item->order_id;
-            }
-            $orders = $this->CommonModel->get_data_list_by_multiple_columns('nso_generals', '*', $where, 'created_at', 'DESC');
+            $customer =  $item->customer;
+            $order_type =  $item->order_type;
+            $transectionId =  $item->transectionId;
+            $purchase_order_number =  $item->purchase_order_number;
+            $order_status =  $item->order_status;
+            $vendor_id =  $this->session->userdata('vendor_id');
+
+            $orders = $this->CommonModel->get_order_list_by_company_id($order_type, $order_status, $vendor_id, $customer,  $transectionId, $purchase_order_number);
 
             echo json_encode($orders);
+        }
+    }
+
+    public function change_order_status()
+    {
+        if (isPostBack()) {
+            $postBackData['order_status'] = $this->input->post('order_new_status');
+            $orders = $this->input->post('orders');
+            foreach ($orders as $order_id) {
+                $this->CommonModel->update_data('nso_generals', $postBackData, 'generalId', $order_id);
+            }
+            echo 1;
+        } else {
+            echo 0;
         }
     }
 
@@ -100,15 +127,6 @@ class ActionController extends CI_Controller
     {
         $data['title'] = "Create New Order";
         $data['mainContent'] = $this->load->view('admin/action/pickup.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
-    }
-
-
-    public function orders()
-    {
-        $data['title'] = "Orders";
-        $data['customers'] = $this->CommonModel->get_data_list_by_many_columns('nso_user', array('type' => 1, 'updatedBy' => $this->session->userdata('userId')), 'firstName', 'ASC');
-        $data['mainContent'] = $this->load->view('admin/action/orders.php', $data, true);
         $this->load->view('admin_master_templete', $data);
     }
 }

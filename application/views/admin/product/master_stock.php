@@ -25,19 +25,20 @@
                 <div class="dropdown-divider m-0"></div>
                 <div class="card-body master_stock">
                     <div class="row font-weight-bold mb-2">
-                        <div class="col-4">PRODUCT NAME</div>
-                        <div class="col-2">PACK SIZE</div>
+                        <div class="col-3">PRODUCT NAME</div>
+                        <div class="col-1">PACK SIZE</div>
                         <div class="col-2">WASH PRICE</div>
                         <div class="col-3">RENTAL PRICE</div>
+                        <div class="col-2">LOST PRICE</div>
                         <div class="col-1">ACTION</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <input type="text" class="form-control product_name" id="product_name" placeholder="Name of a Product">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group">
                                 <input type="text" class="form-control pack_size" id="pack_size" value="1">
                             </div>
@@ -50,7 +51,6 @@
                         <div class="col-md-3 d-flex">
                             <div class="form-group">
                                 <input type="text" class="form-control rental_price" id="rental_price" value="0.00">
-
                             </div>
                             <div class="form-group">
                                 <select id="rental_type" name="rental_type" data-placeholder="Select Category" class="form-control">
@@ -59,6 +59,11 @@
                                     <option value="Forthnightly">Forthnightly</option>
                                     <option value="Monthly">Monthly</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control lost_price" id="lost_price" value="0.00">
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -101,6 +106,7 @@
         item.wash_price = $('#wash_price').val();
         item.rental_price = $('#rental_price').val();
         item.rental_type = $('#rental_type').val();
+        item.lost_price = $('#lost_price').val();
 
         let url = base_url + "ajax/master_stock_add";
         $.post(url, {
@@ -114,6 +120,7 @@
                 $('#pack_size').val(1);
                 $('#wash_price').val(0);
                 $('#rental_price').val(0);
+                $('#lost_price').val(0);
             });
     });
 
@@ -127,6 +134,7 @@
         item.wash_price = $(this).closest('.row').find('.wash_price').val();
         item.rental_price = $(this).closest('.row').find('.rental_price').val();
         item.rental_type = $(this).closest('.row').find('.rental_type').val();
+        item.lost_price = $(this).closest('.row').find('.lost_price').val();
 
         let url = base_url + "ajax/master_stock_update";
         $.post(url, {
@@ -141,12 +149,12 @@
     function add_stock_row(item) {
         let new_stock_row = `
             <div class="row" data-stock-id="${item.master_stock_id}">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <input type="text" class="form-control product_name" placeholder="Name of a Product" value="${item.product_name}">
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <div class="form-group">
                         <input type="text" class="form-control pack_size" value="${item.pack_size}">
                     </div>
@@ -168,6 +176,11 @@
                             <option value="Forthnightly" ${(item.rental_type == "Forthnightly") ? "selected" : ""}>Forthnightly</option>
                             <option value="Monthly" ${(item.rental_type == "Monthly") ? "selected" : ""}>Monthly</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="text" class="form-control lost_price" value="${item.lost_price}">
                     </div>
                 </div>
                 <div class="col-md-1">

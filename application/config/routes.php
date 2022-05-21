@@ -7,9 +7,9 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Frontend 
-$route['login'] = 'AuthController/login';
-$route['register'] = 'AuthController/register';
-$route['logout'] = 'AuthController/logout';
+// $route['login'] = 'AuthController/login';
+// $route['register'] = 'AuthController/register';
+// $route['logout'] = 'AuthController/logout';
 
 $route['about'] = 'FrontendController/about';
 $route['contact'] = 'FrontendController/contact';
@@ -46,6 +46,14 @@ $route['confirmation'] = 'FrontendController/confirmation';
 $route['contactmail'] = 'FrontendController/contactmail';
 $route['emailconfirmation'] = 'FrontendController/emailconfirmation';
 
+// Customer Panel Controller
+$route['cp/dashboard'] = 'CustomerPanelController/dashboard';
+$route['cp/orders'] = 'CustomerPanelController/orders';
+
+$route['cp/setting/user'] = 'CustomerPanelController/setting_user';
+$route['cp/setting/company'] = 'CustomerPanelController/setting_company';
+$route['cp/setting/password'] = 'CustomerPanelController/change_password';
+
 // Master Admin Controller
 $route['ma/dashboard'] = 'MasterAdminController/dashboard';
 $route['ma/vendors'] = 'MasterAdminController/vendors';
@@ -56,10 +64,15 @@ $route['ma/setting/company'] = 'MasterAdminController/setting_company';
 $route['ma/setting/password'] = 'MasterAdminController/setting_password';
 
 
+// Ajax Controller
+$route['ajax/change_user_status'] = 'AjaxController/change_user_status';
+
+
 // Admin Panel
 $route['login'] = 'AdminController/login';
 $route['admin'] = 'AdminController/index';
 $route['admin/login'] = 'AdminController/checkLogin_admin';
+$route['logout'] = 'AdminController/logout_admin';
 $route['admin/logout'] = 'AdminController/logout_admin';
 
 $route['admin/assets'] = 'AssetController/assets';
@@ -83,13 +96,19 @@ $route['admin/inbox'] = 'SetupController/inbox';
 // Setup Controller
 
 $route['setting/user'] = 'SetupController/setting_user';
+$route['setting/vendor'] = 'SetupController/setting_vendor';
 $route['setting/company'] = 'SetupController/setting_company';
 $route['setting/password'] = 'SetupController/change_password';
+$route['setting/user_access'] = 'SetupController/user_access';
+$route['ajax/add_user_access'] = 'SetupController/add_user_access';
+$route['ajax/update_user_access'] = 'SetupController/update_user_access';
+$route['ajax/get_user_access_list'] = 'SetupController/get_user_access_list';
 
 
 $route['customers'] = 'CustomerController/customers';
 $route['customer_add'] = 'CustomerController/customer_add';
 $route['customer_edit/(:any)'] = 'CustomerController/customer_edit/$1';
+
 
 $route['master_stock'] = 'ProductController/master_stock';
 $route['ajax/master_stock_get'] = 'ProductController/master_stock_get_ajax';
@@ -99,15 +118,18 @@ $route['ajax/master_stock_update'] = 'ProductController/master_stock_update_ajax
 
 // Action Controller
 $route['order'] = 'ActionController/order';
+$route['rental'] = 'ActionController/order';
+$route['pickup'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
-$route['rental'] = 'ActionController/rental';
-$route['pickup'] = 'ActionController/pickup';
+
 
 $route['ajax/order_submit'] = 'ActionController/order_submit';
 $route['ajax/fetch_orders'] = 'ActionController/fetch_orders';
+$route['ajax/change_order_status'] = 'ActionController/change_order_status';
 
 
 // Report Controller
+$route['invoice/(:any)'] = 'ReportController/view_invoice/$1';
 $route['reports'] = 'ReportController/reports';
 
 $route['admin/delete/(:any)/(:any)'] = 'SetupController/delete_row/$1/$2';

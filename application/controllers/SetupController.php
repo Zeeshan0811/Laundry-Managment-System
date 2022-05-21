@@ -119,6 +119,12 @@ class SetupController extends CI_Controller
             $postBackData['phone'] = $this->input->post('phone');
             $postBackData['email'] = $this->input->post('email');
             $postBackData['address'] = $this->input->post('address');
+            $postBackData['address_line_2'] = $this->input->post('address_line_2');
+            $postBackData['city'] = $this->input->post('city');
+            $postBackData['state'] = $this->input->post('state');
+            $postBackData['country'] = $this->input->post('country');
+            $postBackData['zip'] = $this->input->post('zip');
+            $postBackData['updatedBy'] = $this->session->userdata('userId');
 
             $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $this->session->userdata('userId'));
             $this->db->trans_complete();
@@ -133,8 +139,37 @@ class SetupController extends CI_Controller
             }
         }
         $data['title'] = 'My Profile';
-        $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $this->session->userdata('userId'));
+        $data['user'] = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $this->session->userdata('userId'));
         $data['mainContent'] = $this->load->view('admin/setup/setting_user.php', $data, true);
+        $this->load->view('admin_master_templete', $data);
+    }
+
+    public function setting_vendor()
+    {
+        if (isPostBack()) {
+            $postBackData['trading_name'] = $this->input->post('trading_name');
+            $postBackData['legal_name'] = $this->input->post('legal_name');
+            $postBackData['abn'] = $this->input->post('abn');
+            $postBackData['gl_code'] = $this->input->post('gl_code');
+            $postBackData['business_phone'] = $this->input->post('business_phone');
+            $postBackData['business_email'] = $this->input->post('business_email');
+            $postBackData['billing_add_line_1'] = $this->input->post('billing_add_line_1');
+            $postBackData['billing_add_line_2'] = $this->input->post('billing_add_line_2');
+            $postBackData['billing_suburb'] = $this->input->post('billing_suburb');
+            $postBackData['billing_state'] = $this->input->post('billing_state');
+            $postBackData['billing_country'] = $this->input->post('billing_country');
+            $postBackData['billing_postcode'] = $this->input->post('billing_postcode');
+
+
+            $postBackData['updated_by'] = $this->session->userdata('userId');
+
+            $this->CommonModel->update_data('nso_vendors', $postBackData, 'vendor_id', $this->session->userdata('vendor_id'));
+            message(" Item has updated successfully!!");
+            redirect(base_url('setting/vendor'));
+        }
+        $data['title'] = 'Vendor Setting';
+        $data['vendor'] = $this->CommonModel->get_single_data_by_single_column('nso_vendors', 'vendor_id', $this->session->userdata('vendor_id'));
+        $data['mainContent'] = $this->load->view('admin/setup/setting_vendor.php', $data, true);
         $this->load->view('admin_master_templete', $data);
     }
 
@@ -173,6 +208,58 @@ class SetupController extends CI_Controller
     }
 
 
+
+    public function user_access()
+    {
+        $data['title'] = "User Access";
+        $data['mainContent'] = $this->load->view('admin/setup/setting_user_access.php', $data, true);
+        $this->load->view('admin_master_templete', $data);
+    }
+
+    public function get_user_access_list()
+    {
+        if (isPostBack()) {
+            $user_access_list = $this->CommonModel->get_user_vendor_list($this->session->userdata('vendor_id'));
+            echo json_encode($user_access_list);
+        }
+    }
+
+    public function add_user_access()
+    {
+        if (isPostBack()) {
+            $postBackData['status'] = $vendor_access['status'] = 1;
+            $postBackData['type'] = $vendor_access['access_type'] = $this->input->post('type');
+
+            $postBackData['firstName'] = $this->input->post('firstName');
+            $postBackData['lastName'] = $this->input->post('lastName');
+            $postBackData['email'] = $postBackData['username'] =  $this->input->post('email');
+            $postBackData['phone'] = $this->input->post('phone');
+            $postBackData['created_by'] = $this->session->userdata('userId');
+            $postBackData['updatedBy'] = $this->session->userdata('userId');
+            $postBackData['rawPass'] = $rawPass = rand(100000, 999999);
+            $postBackData['password'] = md5($rawPass);
+
+            $vendor_access['user_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
+            $vendor_access['vendor_id'] =  $this->session->userdata('vendor_id');
+
+            echo $this->CommonModel->insert_data('nso_user_vendor_access', $vendor_access);
+        }
+    }
+
+    public function update_user_access()
+    {
+        if (isPostBack()) {
+            // dumpVar($_POST);
+            $user_id = $this->input->post('user_id');
+            $postBackData['firstName'] = $this->input->post('firstName');
+            $postBackData['lastName'] = $this->input->post('lastName');
+            $postBackData['email'] = $postBackData['username'] =  $this->input->post('email');
+            $postBackData['phone'] = $this->input->post('phone');
+            $postBackData['updatedBy'] = $this->session->userdata('userId');
+
+            echo $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $user_id);
+        }
+    }
 
     public function delete_row($type, $id)
     {

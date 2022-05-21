@@ -17,53 +17,72 @@
         <div class="col-md-12">
             <!-- Hover rows -->
             <div class="card">
-                <div class="card-header header-elements-inline pb-2">
-                    <h5 class="card-title">
-                        <span class="font-weight-semibold"><i class="icon-stack3 mr-2"></i> ORDER DETAILS</span>
-                    </h5>
-                </div>
-                <div class="dropdown-divider"></div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-3">Customer*</label>
-                                <div class="col-md-9">
+                                <label class="col-form-label col-md-4">Customer*</label>
+                                <div class="col-md-8">
                                     <select class="form-control" name="customer" id="customer">
                                         <?php foreach ($customers as $customer) {  ?>
-                                            <option value="<?php echo $customer->userId; ?>"><?php echo $customer->firstName . ' ' . $customer->lastName; ?></option>
+                                            <option value="<?php echo $customer->vendor_id; ?>"><?php echo $customer->trading_name; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-2">Delivery</label>
-                                <div class="col-md-5">
+                                <label class="col-form-label col-md-4 text-right">Order Type</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="order_type" id="order_type">
+                                        <?php foreach ($order_types as $order_type) {  ?>
+                                            <option value="<?php echo $order_type->unitId; ?>"><?php echo $order_type->title; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group row justify-content-md-center">
+                                <label class="col-form-label col-md-6 text-right">Purchase Order</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" name="purchase_order_number" id="purchase_order_number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group row justify-content-md-center">
+                                <label class="col-form-label col-md-4">Delivery</label>
+                                <div class="col-md-8">
                                     <select class="form-control" name="delivery_type" id="delivery_type">
                                         <?php foreach ($delivery_types as $delivery) { ?>
                                             <option value="<?php echo $delivery->unitId; ?>"><?php echo $delivery->title; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="input-group">
-                                        <span class="input-group-prepend">
-                                            <span class="input-group-text"><i class="icon-calendar5"></i></span>
-                                        </span>
-                                        <input name="delivery_date" type="text" class="form-control pickadate delivery_date" placeholder="Choose date" required>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-6">Purchase Order</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="purchase_order_number" id="purchase_order_number">
-                                </div>
+                        <div class="col-md-3" id="delivery_date_col">
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                </span>
+                                <input name="delivery_date" type="text" class="form-control pickadate delivery_date" placeholder="Choose date" required>
                             </div>
+                            <span class="form-text text-muted font-italic">Delivery Date</span>
+
+                        </div>
+                        <div class="col-md-3" id="pickup_date_col">
+                            <div class="input-group">
+                                <span class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-calendar5"></i></span>
+                                </span>
+                                <input name="pickup_date" type="text" class="form-control pickadate pickup_date" placeholder="Choose date" required>
+                            </div>
+                            <span class="form-text text-muted font-italic">Pickup Date</span>
                         </div>
                     </div>
                 </div>
@@ -71,6 +90,9 @@
             </div>
             <!-- /hover rows -->
 
+
+        </div>
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header header-elements-inline">
                     <h5 class="card-title">
@@ -83,7 +105,7 @@
                         <thead>
                             <tr>
                                 <th>PRODUCT NAME</th>
-                                <th>CATEGORY</th>
+                                <!-- <th>CATEGORY</th> -->
                                 <th>PACK SIZE</th>
                                 <th>PACKS</th>
                                 <th width="20%">TOTAL PIECES</th>
@@ -93,7 +115,7 @@
                             <?php foreach ($products as $product) { ?>
                                 <tr data-master_stock_id="<?php echo $product->master_stock_id; ?>">
                                     <td><?php echo $product->product_name; ?></td>
-                                    <td><?php echo $product->pack_size; ?></td>
+                                    <!-- <td><?php echo $product->pack_size; ?></td> -->
                                     <td><?php echo $product->pack_size; ?></td>
                                     <td><?php echo $product->pack_size; ?></td>
                                     <td>
@@ -126,13 +148,28 @@
 <!-- /footer -->
 
 <script>
+    $(document).ready(function(e) {
+        let order_type = "<?php echo $this->uri->segment(1, 0); ?>";
+        let order_value = 5;
+        if (order_type == "order") {
+            order_value = 5;
+        } else if (order_type == "rental") {
+            order_value = 6;
+        } else if (order_type == "pickup") {
+            order_value = 7;
+        }
+        $("#order_type").val(order_value).change();
+    });
+
     $(document).on('click', '#submit', function(e) {
         e.preventDefault();
         let item = {};
         item.customer = $('#customer').val();
+        item.order_type = $('#order_type').val();
         item.delivery_type = $('#delivery_type').val();
         item.purchase_order_number = $('#purchase_order_number').val();
         item.delivery_date = $("input[name='delivery_date_submit']").val();
+        item.pickup_date = $("input[name='pickup_date_submit']").val();
 
         item.product_list = $("input[name='master_stock_id[]']")
             .map(function() {
@@ -154,5 +191,20 @@
             }
 
         });
-    })
+    });
+
+
+    $(document).on('change', '#delivery_type', function(e) {
+        let delivery_type = $(this).val();
+        console.log(delivery_type);
+        $('#delivery_date_col, #pickup_date_col').show();
+
+        if (delivery_type == 2) {
+            $('#pickup_date_col').hide();
+        }
+
+        if (delivery_type == 3) {
+            $('#delivery_date_col').hide();
+        }
+    });
 </script>

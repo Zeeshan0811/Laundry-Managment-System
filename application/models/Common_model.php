@@ -566,4 +566,120 @@ class Common_model extends CI_Model
 
         return $this->db->get()->result();
     }
+
+
+    public function get_user_vendor_list($vendor_id)
+    {
+        $this->db->select('*');
+        $this->db->from('nso_user_vendor_access');
+        $this->db->where('vendor_id', $vendor_id);
+        $this->db->where('access_type', 5);
+        $this->db->or_where('access_type', 6);
+        $this->db->or_where('access_type', 7);
+        $this->db->where('vendor_id', $vendor_id);
+        $this->db->join('nso_user user', 'user.userId = nso_user_vendor_access.user_id', 'left');
+        $this->db->order_by('user.firstName', 'ASC');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_customer_list_by_vendor($vendor_user_id = null, $vendor_id = null, $customer_id = null, $company_id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('nso_user_vendor_access');
+        if (isset($vendor_user_id)) {
+            $this->db->where('nso_user_vendor_access.user_id', $vendor_user_id);
+        }
+        if (isset($vendor_id)) {
+            $this->db->where('nso_user_vendor_access.vendor_id', $vendor_id);
+        }
+        if (isset($customer_id)) {
+            $this->db->where('customer_id', $customer_id);
+        }
+        if (isset($company_id)) {
+            $this->db->where('company_id', $customer_id);
+        }
+        $this->db->where('access_type', 2);
+        // $this->db->where('status', 1);
+        $this->db->join('nso_user user', 'user.userId = nso_user_vendor_access.customer_id', 'left');
+        // $this->db->join('nso_vendors vendor', 'vendor.vendor_id = nso_user_vendor_access.company_id', 'left');
+        // $this->db->order_by('vendor.trading_name', 'ASC');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_single_vendor_customer_data($type = null, $customer_id = null, $company_id = null)
+    {
+        $this->db->select('*');
+        $this->db->from('nso_user_vendor_access');
+        if (isset($customer_id)) {
+            $this->db->where('customer_id', $customer_id);
+        }
+        if (isset($company_id)) {
+            $this->db->where('company_id', $company_id);
+        }
+
+        if (isset($type)) {
+            $this->db->where('access_type', $type);
+        }
+        $this->db->join('nso_user user', 'user.userId = nso_user_vendor_access.customer_id', 'left');
+        $this->db->join('nso_vendors vendor', 'vendor.vendor_id = nso_user_vendor_access.company_id', 'left');
+
+        return $this->db->get()->row();
+    }
+
+
+    public function get_order_list_by_company_id($order_type, $order_status, $vendor_id, $customer = null,  $transectionId = null, $purchase_order_number = null)
+    {
+        $this->db->select('*');
+        $this->db->from('nso_generals');
+
+        if ($order_type != 0) {
+            $this->db->where('order_type', $order_type);
+        }
+        if (isset($order_status)) {
+            $this->db->where('order_status', $order_status);
+        }
+        if (isset($vendor_id)) {
+            $this->db->where('nso_generals.vendor_id', $vendor_id);
+        }
+
+        if (isset($customer)) {
+            $this->db->where('customer', $customer);
+        }
+        if (!empty($transectionId)) {
+            $this->db->where('transectionId', $transectionId);
+        }
+        if (!empty($purchase_order_number)) {
+            $this->db->where('purchase_order_number', $purchase_order_number);
+        }
+
+        $this->db->join('nso_vendors vendor', 'vendor.vendor_id = nso_generals.customer', 'left');
+
+        $this->db->order_by('nso_generals.created_at', 'DESC');
+
+        return $this->db->get()->result();
+    }
+
+    public function get_single_invoice_detail($transectionId)
+    {
+        $this->db->select('*, nso_generals.created_at as general_created, order_table.title as order_type_title, delivery_table.title as delivery_type_title');
+        $this->db->from('nso_generals');
+        $this->db->where('transectionId', $transectionId);
+        $this->db->join('nso_allsetup order_table', 'order_table.unitId = nso_generals.order_type', 'left');
+        $this->db->join('nso_allsetup delivery_table', 'delivery_table.unitId = nso_generals.delivery_type', 'left');
+        $this->db->join('nso_vendors company', 'company.vendor_id = nso_generals.customer', 'left');
+
+        $invoice = $this->db->get()->row();
+
+        $this->db->select('*, product.product_name');
+        $this->db->from('nso_generalledger');
+        $this->db->where('transectionId', $transectionId);
+        $this->db->join('nso_master_stock product', 'product.master_stock_id = nso_generalledger.productId', 'left');
+        $this->db->order_by('product.product_name', 'ASC');
+
+        $invoice->ledgers = $this->db->get()->result();
+
+        return $invoice;
+    }
 }

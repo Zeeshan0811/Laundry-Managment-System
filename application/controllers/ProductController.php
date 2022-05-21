@@ -28,7 +28,11 @@ class ProductController extends CI_Controller
 
     public function master_stock_get_ajax()
     {
-        $stocks = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'user_id', $this->session->userdata('userId'), 'product_name', 'ASC');
+        $where['user_id'] = $this->session->userdata('userId');
+        $where['vendor_id'] = $this->session->userdata('vendor_id');
+        $where['customer_id'] = 0;
+
+        $stocks = $this->CommonModel->get_data_list_by_multiple_columns('nso_master_stock', '*', $where, 'product_name', 'ASC');
         if (!empty($stocks)) {
             echo json_encode($stocks);
         } else {
@@ -41,11 +45,13 @@ class ProductController extends CI_Controller
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
             // dumpVar($item);
+            $postBackData['vendor_id'] = $this->session->userdata('vendor_id');
             $postBackData['product_name'] = $item->product_name;
             $postBackData['pack_size'] = $item->pack_size;
             $postBackData['wash_price'] = $item->wash_price;
             $postBackData['rental_price'] = $item->rental_price;
             $postBackData['rental_type'] = $item->rental_type;
+            $postBackData['lost_price'] = $item->lost_price;
             $postBackData['user_id'] = $this->session->userdata('userId');
             $postBackData['updated_by'] = $this->session->userdata('userId');
             $postBackData['updated_at'] = date('Y-m-d H:i:s');
@@ -67,6 +73,7 @@ class ProductController extends CI_Controller
             $postBackData['wash_price'] = $item->wash_price;
             $postBackData['rental_price'] = $item->rental_price;
             $postBackData['rental_type'] = $item->rental_type;
+            $postBackData['lost_price'] = $item->lost_price;
             $postBackData['updated_by'] = $this->session->userdata('userId');
             $postBackData['updated_at'] = date('Y-m-d H:i:s');
 

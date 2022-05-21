@@ -16,31 +16,61 @@
                         <div class="form-group row justify-content-md-center">
                             <label class="col-form-label col-md-3">First Name</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="firstName" value="<?php echo $sysConf->firstName ?>" required>
+                                <input type="text" class="form-control" name="firstName" value="<?php echo $user->firstName ?>" required>
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center">
                             <label class="col-form-label col-md-3">Last Name</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="lastName" value="<?php echo $sysConf->lastName ?>" required>
+                                <input type="text" class="form-control" name="lastName" value="<?php echo $user->lastName ?>" required>
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center">
                             <label class="col-form-label col-md-3">Phone Number</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="phone" value="<?php echo $sysConf->phone ?>" required>
+                                <input type="text" class="form-control" name="phone" value="<?php echo $user->phone ?>" required>
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center">
                             <label class="col-form-label col-md-3">Email Address</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" name="email" value="<?php echo $sysConf->email ?>" required>
+                                <input type="text" class="form-control" name="email" value="<?php echo $user->email ?>" required>
                             </div>
                         </div>
                         <div class="form-group row justify-content-md-center">
-                            <label class="col-form-label col-md-3">Location</label>
+                            <label class="col-form-label col-md-3">Address Line 1</label>
                             <div class="col-md-7">
-                                <textarea name="address" rows="5" cols="5" class="form-control" placeholder="Enter your address here"><?php echo $sysConf->address; ?></textarea>
+                                <input type="text" class="form-control" name="address" value="<?php echo $user->address ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">Address Line 2</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="address_line_2" value="<?php echo $user->address_line_2 ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">City</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="city" value="<?php echo $user->city ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">State</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="state" value="<?php echo $user->state ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">Country</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="country" value="<?php echo $user->country ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">Postal Code</label>
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" name="zip" value="<?php echo $user->zip ?>" required>
                             </div>
                         </div>
 

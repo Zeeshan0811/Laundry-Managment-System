@@ -16,10 +16,11 @@ class FrontendController extends CI_Controller
 
     public function index()
     {
-        $data['title'] = "Home";
-        $data['products'] = $this->CommonModel->get_product(null, null, null, null, 'brandName', 'ASC');
-        $data['mainContent'] = $this->load->view('frontend/index.php', $data, true);
-        $this->load->view('frontend_master_templete', $data);
+
+        // $data['title'] = "Home";
+        // $data['products'] = $this->CommonModel->get_product(null, null, null, null, 'brandName', 'ASC');
+        // $data['mainContent'] = $this->load->view('frontend/index.php', $data, true);
+        // $this->load->view('frontend_master_templete', $data);
     }
 
     public function about()
@@ -67,18 +68,20 @@ class FrontendController extends CI_Controller
         $this->load->view('frontend_master_templete', $data);
     }
 
+    public function access_restriction()
+    {
+        $data['title'] = "Access Restriction";
+        $data['mainContent'] = $this->load->view('frontend/restriction.php', $data, true);
+        $this->load->view('frontend_master_templete', $data);
+    }
+
+
+
 
     public function error()
     {
         $data['title'] = "Error";
         $data['mainContent'] = $this->load->view('frontend/error.php', $data, true);
-        $this->load->view('frontend_master_templete', $data);
-    }
-
-    public function access_restriction()
-    {
-        $data['title'] = "Access Restriction";
-        $data['mainContent'] = $this->load->view('frontend/restriction.php', $data, true);
         $this->load->view('frontend_master_templete', $data);
     }
 

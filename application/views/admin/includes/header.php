@@ -26,6 +26,12 @@
 
         <span class="badge bg-success ml-md-3 mr-md-auto">Online</span>
 
+        <span class="badge bg-white text-dark ml-md-3 mr-md-auto p-2 font-weight-bold">
+            <a href="<?php echo base_url('setting/vendor'); ?>">
+                <?php echo $this->CommonModel->table_info('nso_vendors', 'vendor_id', $this->session->userdata('vendor_id'))->trading_name; ?>
+            </a>
+        </span>
+
         <ul class="navbar-nav">
             <li class="nav-item dropdown custom-nav">
                 <a href="#" class="navbar-nav-link" data-toggle="dropdown">
