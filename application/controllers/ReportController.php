@@ -20,9 +20,15 @@ class ReportController extends CI_Controller
     {
         $data['title'] = "Reports";
         $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
-        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
+        if ($this->session->userdata('type') > 1  && $this->session->userdata('type') < 4) {
+            $data['customers'] =  $this->CommonModel->get_customer_list_by_vendor(null,  $this->session->userdata('vendor_id'), null, $this->session->userdata('company_id'));
+        } else if ($this->session->userdata('type') < 8) {
+            $data['customers'] = $this->CommonModel->get_customer_list_by_vendor(null, $this->session->userdata('vendor_id'));
+        } else {
+            $data['customers'] = null;
+        }
         $data['mainContent'] = $this->load->view('admin/report/reports.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 
     public function view_invoice($transectionId)
@@ -31,6 +37,6 @@ class ReportController extends CI_Controller
         $data['invoice'] = $this->CommonModel->get_single_invoice_detail($transectionId);
         // dumpVar($data);
         $data['mainContent'] = $this->load->view('admin/report/invoice.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 }

@@ -597,13 +597,13 @@ class Common_model extends CI_Model
             $this->db->where('customer_id', $customer_id);
         }
         if (isset($company_id)) {
-            $this->db->where('company_id', $customer_id);
+            $this->db->where('company_id', $company_id);
         }
         $this->db->where('access_type', 2);
         // $this->db->where('status', 1);
         $this->db->join('nso_user user', 'user.userId = nso_user_vendor_access.customer_id', 'left');
-        // $this->db->join('nso_vendors vendor', 'vendor.vendor_id = nso_user_vendor_access.company_id', 'left');
-        // $this->db->order_by('vendor.trading_name', 'ASC');
+        $this->db->join('nso_vendors vendor', 'vendor.vendor_id = nso_user_vendor_access.company_id', 'left');
+        $this->db->order_by('vendor.trading_name', 'ASC');
 
         return $this->db->get()->result();
     }

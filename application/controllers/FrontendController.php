@@ -17,6 +17,7 @@ class FrontendController extends CI_Controller
     public function index()
     {
 
+        redirect(base_url('login'));
         // $data['title'] = "Home";
         // $data['products'] = $this->CommonModel->get_product(null, null, null, null, 'brandName', 'ASC');
         // $data['mainContent'] = $this->load->view('frontend/index.php', $data, true);

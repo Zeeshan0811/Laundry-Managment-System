@@ -68,9 +68,9 @@
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link"><i class="icon-gear"></i> <span>Settings</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
-                        <li class="nav-item"><a href="<?php echo base_url('ma/setting/user')  ?>" class="nav-link">My Profile</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/user')  ?>" class="nav-link">My Profile</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('ma/setting/company')  ?>" class="nav-link">My Company</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('ma/setting/password')  ?>" class="nav-link">Change Password</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/password')  ?>" class="nav-link">Change Password</a></li>
                     </ul>
                 </li>
             </ul>

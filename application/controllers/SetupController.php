@@ -89,7 +89,7 @@ class SetupController extends CI_Controller
 
             if ($new_password != $repeat_password) {
                 exception('New Password and Repeat Password are not matching');
-                redirect('admin/setting/password');
+                redirect('setting/password');
             }
 
             if (md5($old_password) != $user->password) {
@@ -105,7 +105,7 @@ class SetupController extends CI_Controller
         }
         $data['title'] = 'Password';
         $data['mainContent'] = $this->load->view('admin/setup/change_password.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 
 
@@ -135,13 +135,13 @@ class SetupController extends CI_Controller
             } else {
                 $this->db->trans_commit();
                 message(" Item has updated successfully!!");
-                redirect(base_url('setting/user'));
             }
+            redirect(base_url('setting/user'));
         }
         $data['title'] = 'My Profile';
         $data['user'] = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $this->session->userdata('userId'));
         $data['mainContent'] = $this->load->view('admin/setup/setting_user.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 
     public function setting_vendor()

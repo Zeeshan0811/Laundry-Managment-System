@@ -23,6 +23,23 @@ if (!function_exists('image_upload')) {
     }
 }
 
+if (!function_exists('templete_type')) {
+    function templete_type($user_type)
+    {
+        if ($user_type > 1 && $user_type < 4) {
+            $templete = 'customer_panel_templete';
+        } else if ($user_type > 3 && $user_type < 8) {
+            $templete = 'admin_master_templete';
+        } else if ($user_type > 7) {
+            $templete = 'master_admin_templete';
+        } else {
+            $templete = 'none';
+        }
+
+        return $templete;
+    }
+}
+
 
 if (!function_exists('status_text')) {
     function status_text($type)

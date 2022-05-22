@@ -48,20 +48,15 @@ $route['emailconfirmation'] = 'FrontendController/emailconfirmation';
 
 // Customer Panel Controller
 $route['cp/dashboard'] = 'CustomerPanelController/dashboard';
-$route['cp/orders'] = 'CustomerPanelController/orders';
 
-$route['cp/setting/user'] = 'CustomerPanelController/setting_user';
 $route['cp/setting/company'] = 'CustomerPanelController/setting_company';
-$route['cp/setting/password'] = 'CustomerPanelController/change_password';
 
 // Master Admin Controller
 $route['ma/dashboard'] = 'MasterAdminController/dashboard';
 $route['ma/vendors'] = 'MasterAdminController/vendors';
 $route['ma/vendor_add'] = 'MasterAdminController/vendor_add';
 
-$route['ma/setting/user'] = 'MasterAdminController/setting_user';
 $route['ma/setting/company'] = 'MasterAdminController/setting_company';
-$route['ma/setting/password'] = 'MasterAdminController/setting_password';
 
 
 // Ajax Controller

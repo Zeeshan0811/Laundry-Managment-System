@@ -58,28 +58,36 @@
                         </span>
                     </a>
                 </li>
-                <!-- <li class="nav-item nav-item-submenu">
+                <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link"><i class="icon-stack"></i> <span>Action</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
                         <li class="nav-item"><a href="<?php echo base_url('order')  ?>" class="nav-link">New Order</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('rental')  ?>" class="nav-link">New Rental Charge</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('pickup')  ?>" class="nav-link">New Pickup Order</a></li>
                     </ul>
-                </li> -->
+                </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('cp/orders')  ?>" class="nav-link">
+                    <a href="<?php echo base_url('orders')  ?>" class="nav-link">
                         <i class="icon-stack"></i>
                         <span>
                             Orders
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url('reports')  ?>" class="nav-link">
+                        <i class="icon-stack"></i>
+                        <span>
+                            Reports
+                        </span>
+                    </a>
+                </li>
                 <li class="nav-item nav-item-submenu">
                     <a href="#" class="nav-link"><i class="icon-gear"></i> <span>Settings</span></a>
                     <ul class="nav nav-group-sub" data-submenu-title="Starter kit">
-                        <li class="nav-item"><a href="<?php echo base_url('cp/setting/user')  ?>" class="nav-link">My Profile</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/user')  ?>" class="nav-link">My Profile</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('cp/setting/company')  ?>" class="nav-link">Company Profile</a></li>
-                        <li class="nav-item"><a href="<?php echo base_url('cp/setting/password')  ?>" class="nav-link">Change Password</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('setting/password')  ?>" class="nav-link">Change Password</a></li>
                     </ul>
                 </li>
             </ul>

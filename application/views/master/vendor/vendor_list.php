@@ -19,7 +19,7 @@
                                 <th>SL.</th>
                                 <th>Vendor Details</th>
                                 <th>User Information</th>
-                                <th>Customer</th>
+                                <th>Customers</th>
                                 <th>Status</th>
                                 <th>Created At</th>
                             </tr>
@@ -28,6 +28,7 @@
                             <?php $i = 0;
                             foreach ($vendors as $item) {
                                 $user_access = $this->CommonModel->get_single_data_by_many_columns('nso_user_vendor_access', array('access_type' => 4, 'vendor_id' => $item->vendor_id));
+                                $customers = $this->CommonModel->get_customer_list_by_vendor(null, $item->vendor_id);
                                 $user = $this->CommonModel->table_info('nso_user', 'userId', $user_access->user_id);
                                 $i++; ?>
                                 <tr>
@@ -44,7 +45,16 @@
                                         Email: <?php echo $user->phone; ?> </br>
                                         Phone: <?php echo $user->email; ?> </br>
                                     </td>
-                                    <td>0</td>
+                                    <td><?php
+                                        $j = 0;
+                                        foreach ($customers as $customer) {
+                                            $j++;
+                                            echo $j . ". " . $customer->trading_name . "</br>";
+                                        }
+
+                                        echo "</br>Total: " . count($customers);
+                                        ?>
+                                    </td>
                                     <td>
                                         <span class="change_status badge <?php echo status_color($user_access->status); ?>" data-current-status="<?php echo $user_access->status; ?>" data-user-id="<?php echo $user->userId; ?>" data-access-id="<?php echo $user_access->nso_access_id; ?>">
                                             <?php echo status_text($user_access->status); ?>

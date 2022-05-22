@@ -36,8 +36,8 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a href="<?php echo base_url('ma/setting/user'); ?>" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
-                    <a href="<?php echo base_url('ma/setting/password'); ?>" class="dropdown-item"><i class="icon-cog5"></i> Change Password</a>
+                    <a href="<?php echo base_url('setting/user'); ?>" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
+                    <a href="<?php echo base_url('setting/password'); ?>" class="dropdown-item"><i class="icon-cog5"></i> Change Password</a>
                     <a href="<?php echo base_url('logout'); ?>" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
                 </div>
             </li>

@@ -42,13 +42,11 @@
                     <a href="<?php echo base_url('order')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Order</a>
                     <a href="<?php echo base_url('rental')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Rental Charge</a>
                     <a href="<?php echo base_url('pickup')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Pickup Order</a>
-                    <a href="<?php echo base_url('customer_add')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Customer</a>
-                    <a href="<?php echo base_url('master_stock')  ?>" class="dropdown-item"><i class="icon-arrow-right5"></i>New Master Stock Item</a>
                 </div>
             </li>
 
             <li class="nav-item custom-nav">
-                <a href="<?php echo base_url('ca/orders')  ?>" class="navbar-nav-link" title="Orders">
+                <a href="<?php echo base_url('orders')  ?>" class="navbar-nav-link" title="Orders">
                     <i class="icon-cart5"></i>
                 </a>
             </li>

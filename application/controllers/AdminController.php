@@ -24,7 +24,7 @@ class AdminController extends CI_Controller
         if ($this->session->userdata('userId') != null || $this->session->userdata('userId') > 0) {
             $data['title'] = "Admin Panel";
             $data['mainContent'] = $this->load->view('admin/index.php', $data, true);
-            $this->load->view('admin_master_templete', $data);
+            $this->load->view(templete_type($this->session->userdata('type')), $data);
         } else {
             redirect(base_url('login'));
         }
@@ -51,8 +51,9 @@ class AdminController extends CI_Controller
                 if ($userInfo->type < 4) {
                     $user_vendor_access = $this->CommonModel->table_info('nso_user_vendor_access', 'customer_id', $userInfo->userId);
                     $this->session->set_userdata('access_id', $user_vendor_access->nso_access_id);
-                    $this->session->set_userdata('vendor_id', $user_vendor_access->vendor_id);
                     $this->session->set_userdata('access_type', $user_vendor_access->access_type);
+                    $this->session->set_userdata('vendor_id', $user_vendor_access->vendor_id);
+                    $this->session->set_userdata('customer_id', $user_vendor_access->customer_id);
                     $this->session->set_userdata('company_id', $user_vendor_access->company_id);
                     redirect(base_url('cp/dashboard'));
                 } else if ($userInfo->type > 3 && $userInfo->type < 8) {

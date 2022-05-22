@@ -21,10 +21,19 @@ class ActionController extends CI_Controller
         $data['title'] = "Create New Order";
         $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
         $data['delivery_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 1, 'order_by', 'ASC');
-        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
-        $data['products'] = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'user_id', $this->session->userdata('userId'), 'product_name', 'ASC');
+
+
+        if ($this->session->userdata('type') > 1  && $this->session->userdata('type') < 4) {
+            $data['customers'] =  $this->CommonModel->get_customer_list_by_vendor(null,  $this->session->userdata('vendor_id'), null, $this->session->userdata('company_id'));
+        } else if ($this->session->userdata('type') < 8) {
+            $data['customers'] = $this->CommonModel->get_customer_list_by_vendor(null, $this->session->userdata('vendor_id'));
+        } else {
+            $data['customers'] = null;
+        }
+
+        $data['products'] = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'vendor_id', $this->session->userdata('vendor_id'), 'product_name', 'ASC');
         $data['mainContent'] = $this->load->view('admin/action/order.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 
     public function order_submit()
@@ -79,9 +88,17 @@ class ActionController extends CI_Controller
     {
         $data['title'] = "Orders";
         $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
-        $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
+        // $data['customers'] = $this->CommonModel->get_customer_list_by_vendor($this->session->userdata('userId'), $this->session->userdata('vendor_id'));
+        // $data['customers'] =  $this->CommonModel->get_customer_list_by_vendor(null,  $this->session->userdata('vendor_id'),  $this->session->userdata('userId'));
+        if ($this->session->userdata('type') > 1  && $this->session->userdata('type') < 4) {
+            $data['customers'] =  $this->CommonModel->get_customer_list_by_vendor(null,  $this->session->userdata('vendor_id'), null, $this->session->userdata('company_id'));
+        } else if ($this->session->userdata('type') < 8) {
+            $data['customers'] = $this->CommonModel->get_customer_list_by_vendor(null, $this->session->userdata('vendor_id'));
+        } else {
+            $data['customers'] = null;
+        }
         $data['mainContent'] = $this->load->view('admin/action/orders.php', $data, true);
-        $this->load->view('admin_master_templete', $data);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
     }
 
     public function fetch_orders()

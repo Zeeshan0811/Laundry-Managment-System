@@ -86,34 +86,6 @@ class MasterAdminController extends CI_Controller
 
 
 
-    public function setting_user()
-    {
-        if (isPostBack()) {
-            $this->db->trans_start();
-            $postBackData['firstName'] = $this->input->post('firstName');
-            $postBackData['lastName'] = $this->input->post('lastName');
-            $postBackData['phone'] = $this->input->post('phone');
-            $postBackData['email'] = $this->input->post('email');
-            $postBackData['address'] = $this->input->post('address');
-
-            $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $this->session->userdata('userId'));
-            $this->db->trans_complete();
-
-            if ($this->db->trans_status() === FALSE) {
-                $this->db->trans_rollback();
-                exception("An unexpected error has occurred. Your try again later!!");
-            } else {
-                $this->db->trans_commit();
-                message(" Item has updated successfully!!");
-                redirect(base_url('ma/setting/user'));
-            }
-        }
-        $data['title'] = 'My Profile';
-        $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $this->session->userdata('userId'));
-        $data['mainContent'] = $this->load->view('master/setup/setting_user.php', $data, true);
-        $this->load->view('master_admin_templete', $data);
-    }
-
     public function setting_company()
     {
         if (isPostBack()) {
@@ -145,37 +117,6 @@ class MasterAdminController extends CI_Controller
         $data['title'] = 'Company Setting';
         $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_sysconfig', 'id', 1);
         $data['mainContent'] = $this->load->view('master/setup/setting_company.php', $data, true);
-        $this->load->view('master_admin_templete', $data);
-    }
-
-    public function setting_password()
-    {
-        if (isPostBack()) {
-            $userId = $this->session->userdata('userId');
-            $user = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $userId);
-
-            $old_password = $this->input->post('old_password');
-            $new_password = $this->input->post('new_password');
-            $repeat_password = $this->input->post('repeat_password');
-
-            if ($new_password != $repeat_password) {
-                exception('New Password and Repeat Password are not matching');
-                redirect('ma/setting/password');
-            }
-
-            if (md5($old_password) != $user->password) {
-                exception('Current Password is not matched');
-                redirect('ma/setting/password');
-            }
-
-            $postBackData['password'] = md5($new_password);
-            $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $userId);
-
-            message("Password has updated successfully!!");
-            redirect(base_url('ma/setting/password'));
-        }
-        $data['title'] = 'Password';
-        $data['mainContent'] = $this->load->view('master/setup/change_password.php', $data, true);
         $this->load->view('master_admin_templete', $data);
     }
 }
