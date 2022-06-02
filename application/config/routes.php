@@ -69,6 +69,7 @@ $route['admin'] = 'AdminController/index';
 $route['admin/login'] = 'AdminController/checkLogin_admin';
 $route['logout'] = 'AdminController/logout_admin';
 $route['admin/logout'] = 'AdminController/logout_admin';
+$route['forget-password'] = 'AdminController/forget_password';
 
 $route['admin/assets'] = 'AssetController/assets';
 $route['admin/asset_add'] = 'AssetController/asset_add';

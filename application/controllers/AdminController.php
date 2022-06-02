@@ -77,6 +77,43 @@ class AdminController extends CI_Controller
     }
 
 
+    public function forget_password()
+    {
+        if (isPostBack()) {
+            $email = $this->input->post('email');
+
+            $check_existance = $this->CommonModel->table_info('nso_user', 'email', $email);
+
+            if (!empty($check_existance)) {
+                $new_password = time();
+                $postBackData['password'] = md5($new_password);
+                $postBackData['rawPass'] = $new_password;
+
+                $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $check_existance->userId);
+
+                $content['Subject'] = $check_existance->firstName . ", Requested for a new password";
+                $email_msg = "Dear " . $check_existance->firstName . ",<br><br>";
+                $email_msg .= "We've set a new password. Your credentials to login.<br>";
+                $email_msg .= "URL: " . base_url('login') . "<br>";
+                $email_msg .= "Email: " . $check_existance->email . "<br>";
+                $email_msg .= "Password: " . $new_password . "<br><br>";
+                $email_msg .= "Any issues, please contact with support.<br><br>";
+                $email_msg .= "Thank You";
+
+                $content['message'] = $email_msg;
+                sendEmail($email, $content);
+
+                $this->session->set_flashdata('success_msg', 'New password has sent to your email. Please check it...');
+            } else {
+                $this->session->set_flashdata('login_msg', 'Email is not found! Please try again...');
+            }
+            redirect(base_url('forget-password'));
+        }
+        $data['title'] = "Forget Password";
+        $this->load->view('admin/forget_password.php', $data);
+    }
+
+
     public function logout_admin()
     {
         session_destroy();
