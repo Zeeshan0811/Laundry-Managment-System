@@ -3,6 +3,10 @@
     background-color: #1c3142;
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 
 .custom-nav {
     border-right: 1px solid #fff;
