@@ -230,9 +230,9 @@ class SetupController extends CI_Controller
             $postBackData['status'] = $vendor_access['status'] = 1;
             $postBackData['type'] = $vendor_access['access_type'] = $this->input->post('type');
 
-            $postBackData['firstName'] = $this->input->post('firstName');
+            $postBackData['firstName'] = $firstName = $this->input->post('firstName');
             $postBackData['lastName'] = $this->input->post('lastName');
-            $postBackData['email'] = $postBackData['username'] =  $this->input->post('email');
+            $postBackData['email'] = $email = $postBackData['username'] =  $this->input->post('email');
             $postBackData['phone'] = $this->input->post('phone');
             $postBackData['created_by'] = $this->session->userdata('userId');
             $postBackData['updatedBy'] = $this->session->userdata('userId');
@@ -241,6 +241,19 @@ class SetupController extends CI_Controller
 
             $vendor_access['user_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
             $vendor_access['vendor_id'] =  $this->session->userdata('vendor_id');
+
+
+            $content['Subject'] = $firstName . ", You're invited to join Smart Laundry";
+            $email_msg = "Dear " . $firstName . ",<br><br>";
+            $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
+            $email_msg .= "URL: " . base_url('login') . "<br>";
+            $email_msg .= "Email: " . $email . "<br>";
+            $email_msg .= "Password: " . $rawPass . "<br><br>";
+            $email_msg .= "Any issues, please contact with support.<br><br>";
+            $email_msg .= "Thank You";
+
+            $content['message'] = $email_msg;
+            sendEmail($email, $content);
 
             echo $this->CommonModel->insert_data('nso_user_vendor_access', $vendor_access);
         }

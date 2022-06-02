@@ -101,7 +101,7 @@
                                         </label>
                                     </div>
 
-                                    <a href="#" class="ml-auto">Forgot password?</a>
+                                    <a href="<?php echo base_url('forget-password'); ?>" class="ml-auto">Forgot password?</a>
                                 </div>
 
                                 <div class="form-group">

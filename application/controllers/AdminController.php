@@ -103,7 +103,7 @@ class AdminController extends CI_Controller
                 $content['message'] = $email_msg;
                 sendEmail($email, $content);
 
-                $this->session->set_flashdata('success_msg', 'New password has sent to your email. Please check it...');
+                $this->session->set_flashdata('success_msg', 'New password has sent to your email. Please check');
             } else {
                 $this->session->set_flashdata('login_msg', 'Email is not found! Please try again...');
             }
