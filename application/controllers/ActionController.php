@@ -106,11 +106,17 @@ class ActionController extends CI_Controller
         if (isPostBack()) {
             $item = json_decode($this->input->post('item'));
 
-            $customer =  $item->customer;
+            if ($this->session->userdata('access_type') > 4) {
+                $customer =  ($item->customer == 0) ? null : $item->customer;
+            } else {
+                $customer =  $this->session->userdata('company_id');
+            }
+
+
             $order_type =  $item->order_type;
             $transectionId =  $item->transectionId;
             $purchase_order_number =  $item->purchase_order_number;
-            $order_status =  $item->order_status;
+            $order_status =  ($item->order_status == 0) ? null : $item->order_status;
             $vendor_id =  $this->session->userdata('vendor_id');
 
             $orders = $this->CommonModel->get_order_list_by_company_id($order_type, $order_status, $vendor_id, $customer,  $transectionId, $purchase_order_number);

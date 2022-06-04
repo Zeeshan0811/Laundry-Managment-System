@@ -28,6 +28,7 @@
                             <div class="col-md-3">
                                 <div class="form-group justify-content-md-center">
                                     <select class="form-control" name="customer" id="customer">
+                                        <option value="0">Customer - All</option>
                                         <?php foreach ($customers as $customer) { ?>
                                             <option value="<?php echo $customer->vendor_id; ?>"><?php echo $customer->trading_name; ?></option>
                                         <?php } ?>
@@ -37,19 +38,12 @@
                             <div class="col-md-3">
                                 <div class="form-group justify-content-md-center">
                                     <select class="form-control" name="order_status" id="order_status">
+                                        <option value="0">Status - All</option>
                                         <option value="1">Pending</option>
                                         <option value="2">Processing</option>
                                         <option value="3">Packed</option>
                                         <option value="4">Dispatched</option>
                                         <option value="5">Canceled</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group justify-content-md-center">
-                                    <select class="form-control" name="invoice_status" id="invoice_status">
-                                        <option value="2">Invoiced</option>
-                                        <option value="1">Not Invoiced</option>
                                     </select>
                                 </div>
                             </div>
@@ -106,6 +100,7 @@
                 let order_url;
                 orders.forEach(order => {
                     order_url = base_url + 'invoice/' + order.transectionId;
+                    // order_status = '<?php echo order_status(1); ?>';ll
                     element_orders += `
                             <tr>
                                 <td>
@@ -118,7 +113,7 @@
                 });
 
                 let element = `
-                <table class="table table-hover ">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Invoice</th>

@@ -65,6 +65,35 @@ if (!function_exists('status_text')) {
         return $text;
     }
 }
+
+if (!function_exists('order_status')) {
+    function order_status($type)
+    {
+        switch ($type) {
+            case 1:
+                $text = "Pending";
+                break;
+            case 2:
+                $text = "Packing";
+                break;
+            case 3:
+                $text = "Packed";
+                break;
+            case 4:
+                $text = "Dispatched";
+                break;
+            case 5:
+                $text = "Canceled";
+                break;
+            default:
+                $text = "Invalid";
+                break;
+        }
+
+
+        return $text;
+    }
+}
 if (!function_exists('status_color')) {
     function status_color($type)
     {
