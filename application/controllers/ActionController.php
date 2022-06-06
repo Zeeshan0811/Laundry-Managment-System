@@ -63,17 +63,19 @@ class ActionController extends CI_Controller
 
             $i = 0;
             foreach ($product_list as $productId) {
-                $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
+                if ($total_piece[$i] > 0) {
+                    $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
 
-                $ledger_item['generalsId'] = $generalId;
-                $ledger_item['transectionId'] = $transectionId;
-                $ledger_item['productId'] =  $productId;
-                $ledger_item['unit_price'] = $unit_price = $product_info->rental_price;
-                $ledger_item['quantity'] = $quantity = $total_piece[$i];
-                $ledger_item['rental_type'] = $product_info->rental_type;
-                $ledger_item['total'] = $unit_price *  $quantity;
+                    $ledger_item['generalsId'] = $generalId;
+                    $ledger_item['transectionId'] = $transectionId;
+                    $ledger_item['productId'] =  $productId;
+                    $ledger_item['unit_price'] = $unit_price = $product_info->rental_price;
+                    $ledger_item['quantity'] = $quantity = $total_piece[$i];
+                    $ledger_item['rental_type'] = $product_info->rental_type;
+                    $ledger_item['total'] = $unit_price *  $quantity;
 
-                $ledger[] = $ledger_item;
+                    $ledger[] = $ledger_item;
+                }
                 $i++;
             }
 
@@ -83,6 +85,75 @@ class ActionController extends CI_Controller
             echo  $generalId;
         }
     }
+
+    public function order_edit($transectionId)
+    {
+        $data['title'] = "Modify Order";
+        $data['order'] = $this->CommonModel->get_single_data_by_single_column('nso_generals', 'transectionId', $transectionId);
+        $data['order_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 2, 'order_by', 'ASC');
+        $data['delivery_types'] = $this->CommonModel->get_data_list_by_single_column('nso_allsetup', 'type', 1, 'order_by', 'ASC');
+        $data['products'] = $this->CommonModel->get_data_list_by_single_column('nso_master_stock', 'vendor_id', $this->session->userdata('vendor_id'), 'product_name', 'ASC');
+        $data['mainContent'] = $this->load->view('admin/action/order_edit.php', $data, true);
+        $this->load->view(templete_type($this->session->userdata('type')), $data);
+    }
+
+    public function order_modify($transectionId)
+    {
+        if (isPostBack()) {
+            $this->db->trans_start();
+            $item = json_decode($this->input->post('item'));
+            $transectionId = $item->transectionId;
+            $vendor_id = $this->session->userdata('vendor_id');
+            $generalsData['order_type'] = $item->order_type;
+            $generalsData['delivery_type'] =  $item->delivery_type;
+            $generalsData['delivery_date'] = $item->delivery_date;
+            $generalsData['pickup_date'] = $item->pickup_date;
+
+            $generalId = $this->CommonModel->update_data('nso_generals', $generalsData, 'transectionId', $transectionId);
+
+            $product_list = $item->product_list;
+            $total_piece = $item->total_piece;
+
+            $deleted_Value =  $this->CommonModel->get_data_list_by_single_column('nso_generalledger', 'transectionId', $transectionId);
+            $this->CommonModel->delete_data('nso_generalledger', 'transectionId', $transectionId);
+            $deleted_data['type'] = 'ledgers_update';
+            $deleted_data['from_table'] = 'nso_generalledger';
+            $deleted_data['value1'] =  json_encode($deleted_Value);
+            $deleted_data['deleted_by'] = $this->session->userdata('userId');
+            $this->CommonModel->insert_data('nso_deleted_data', $deleted_data);
+
+
+            $i = 0;
+            foreach ($product_list as $productId) {
+                if ($total_piece[$i] > 0) {
+                    $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
+
+                    $ledger_item['generalsId'] = $generalId;
+                    $ledger_item['transectionId'] = $transectionId;
+                    $ledger_item['productId'] =  $productId;
+                    $ledger_item['unit_price'] = $unit_price = $product_info->rental_price;
+                    $ledger_item['quantity'] = $quantity = $total_piece[$i];
+                    $ledger_item['rental_type'] = $product_info->rental_type;
+                    $ledger_item['total'] = $unit_price *  $quantity;
+
+                    $ledger[] = $ledger_item;
+                }
+                $i++;
+            }
+            $this->CommonModel->insert_batch('nso_generalledger', $ledger);
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                exception("An unexpected error has occurred. This action cannot be completed.!!");
+            } else {
+                $this->db->trans_commit();
+                echo  $generalId;
+            }
+        }
+    }
+
+
 
     public function orders()
     {
@@ -123,6 +194,12 @@ class ActionController extends CI_Controller
 
             echo json_encode($orders);
         }
+    }
+
+    public function fetch_single_order($transectionId)
+    {
+        $ledgers = $this->CommonModel->get_data_list_by_single_column('nso_generalledger', 'transectionId', $transectionId);
+        echo json_encode($ledgers);
     }
 
     public function change_order_status()

@@ -117,10 +117,13 @@ $route['order'] = 'ActionController/order';
 $route['rental'] = 'ActionController/order';
 $route['pickup'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
+$route['order_edit/(:any)'] = 'ActionController/order_edit/$1';
 
 
 $route['ajax/order_submit'] = 'ActionController/order_submit';
+$route['ajax/order_modify/(:any)'] = 'ActionController/order_modify/$1';
 $route['ajax/fetch_orders'] = 'ActionController/fetch_orders';
+$route['ajax/fetch_single_order/(:any)'] = 'ActionController/fetch_single_order/$1';
 $route['ajax/change_order_status'] = 'ActionController/change_order_status';
 
 

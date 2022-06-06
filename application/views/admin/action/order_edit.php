@@ -19,50 +19,24 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4">Customer*</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="customer" id="customer">
-                                        <?php foreach ($customers as $customer) {  ?>
-                                            <option value="<?php echo $customer->vendor_id; ?>"><?php echo $customer->trading_name; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="form-group ">
+                                <select class="form-control" name="order_type" id="order_type">
+                                    <?php foreach ($order_types as $order_type) {  ?>
+                                        <option value="<?php echo $order_type->unitId; ?>"><?php echo $order_type->title; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <span class="form-text text-muted font-italic">Order Type</span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4 text-right">Order Type</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="order_type" id="order_type">
-                                        <?php foreach ($order_types as $order_type) {  ?>
-                                            <option value="<?php echo $order_type->unitId; ?>"><?php echo $order_type->title; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-6 text-right">Purchase Order</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" name="purchase_order_number" id="purchase_order_number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group row justify-content-md-center">
-                                <label class="col-form-label col-md-4">Delivery</label>
-                                <div class="col-md-8">
-                                    <select class="form-control" name="delivery_type" id="delivery_type">
-                                        <?php foreach ($delivery_types as $delivery) { ?>
-                                            <option value="<?php echo $delivery->unitId; ?>"><?php echo $delivery->title; ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <select class="form-control" name="delivery_type" id="delivery_type">
+                                    <?php foreach ($delivery_types as $delivery) { ?>
+                                        <option value="<?php echo $delivery->unitId; ?>"><?php echo $delivery->title; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <span class="form-text text-muted font-italic">Delivery Type</span>
                             </div>
                         </div>
                         <div class="col-md-3" id="delivery_date_col">
@@ -70,7 +44,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-text"><i class="icon-calendar5"></i></span>
                                 </span>
-                                <input name="delivery_date" type="text" class="form-control pickadate delivery_date" placeholder="Choose date" required>
+                                <input name="delivery_date" data-value="<?php echo date("Y/m/d", strtotime($order->delivery_date)); ?>" type="text" class="form-control pickadate delivery_date" placeholder="Choose date" required>
                             </div>
                             <span class="form-text text-muted font-italic">Delivery Date</span>
 
@@ -80,7 +54,7 @@
                                 <span class="input-group-prepend">
                                     <span class="input-group-text"><i class="icon-calendar5"></i></span>
                                 </span>
-                                <input name="pickup_date" type="text" class="form-control pickadate pickup_date" placeholder="Choose date" required>
+                                <input name="pickup_date" data-value="<?php echo date("Y/m/d", strtotime($order->pickup_date)); ?>" type="text" class="form-control pickadate pickup_date" placeholder="Choose date" required>
                             </div>
                             <span class="form-text text-muted font-italic">Pickup Date</span>
                         </div>
@@ -149,25 +123,41 @@
 
 <script>
     $(document).ready(function(e) {
-        let order_type = "<?php echo $this->uri->segment(1, 0); ?>";
-        let order_value = 5;
-        if (order_type == "order") {
-            order_value = 5;
-        } else if (order_type == "rental") {
-            order_value = 6;
-        } else if (order_type == "pickup") {
-            order_value = 7;
-        }
-        $("#order_type").val(order_value).change();
+        let order_type = "<?php echo $order->order_type; ?>";
+        let delivery_type = "<?php echo $order->delivery_type; ?>";
+
+        $("#order_type").val(order_type).change();
+        $("#delivery_type").val(delivery_type).change();
+
+
+        var picker_delivery = $('.delivery_date ').pickadate('picker');
+        var picker_pickup = $('.pickup_date ').pickadate('picker');
+        picker_delivery.set('select', '<?php echo $order->delivery_date; ?>', {
+            format: 'yyyy-mm-dd'
+        });
+        picker_pickup.set('select', '<?php echo $order->pickup_date; ?>', {
+            format: 'yyyy-mm-dd'
+        });
+
+
+        let url = base_url + "ajax/fetch_single_order/" + "<?php echo $order->transectionId; ?>";
+        $.get(url, function(data) {
+            if (data) {
+                let ledgers = JSON.parse(data);
+                ledgers.forEach(ledger => {
+                    $(`.total_piece[data-master-stock-id='${ledger.productId}']`).val(ledger.quantity);
+                });
+            }
+        });
     });
+
 
     $(document).on('click', '#submit', function(e) {
         e.preventDefault();
         let item = {};
-        item.customer = $('#customer').val();
+        item.transectionId = "<?php echo $order->transectionId; ?>";
         item.order_type = $('#order_type').val();
         item.delivery_type = $('#delivery_type').val();
-        item.purchase_order_number = $('#purchase_order_number').val();
         item.delivery_date = $("input[name='delivery_date_submit']").val();
         item.pickup_date = $("input[name='pickup_date_submit']").val();
 
@@ -181,13 +171,13 @@
                 return $(this).val();
             }).get();
 
-        let url = base_url + "ajax/order_submit";
+        let url = base_url + "ajax/order_modify/" + "<?php echo $order->transectionId; ?>";
         $.post(url, {
             item: JSON.stringify(item)
         }, function(data) {
             if (data) {
                 alert("Order Placed Successfully!");
-                window.location.href = base_url + "orders";
+                window.location.href = base_url + "invoice/" + "<?php echo $order->transectionId; ?>";
             }
 
         });
