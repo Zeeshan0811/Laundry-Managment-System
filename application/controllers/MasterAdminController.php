@@ -40,9 +40,9 @@ class MasterAdminController extends CI_Controller
             $this->db->trans_start();
             // User
             $postBackData['type'] = $vendorData['type'] =  $accessData['access_type'] =  4;
-            $postBackData['firstName'] = $this->input->post('firstName');
+            $postBackData['firstName'] = $firstName = $this->input->post('firstName');
             $postBackData['lastName'] = $this->input->post('lastName');
-            $postBackData['email'] =  $postBackData['username'] = $this->input->post('email');
+            $postBackData['email'] =  $postBackData['username'] = $email = $this->input->post('email');
             $postBackData['phone'] =  $this->input->post('phone');
             $postBackData['rawPass'] = $rawPass = rand(100000, 999999);
             $postBackData['password'] = md5($rawPass);
@@ -62,6 +62,18 @@ class MasterAdminController extends CI_Controller
 
             $vendorId = $accessData['vendor_id'] =  $this->CommonModel->insert_data('nso_vendors', $vendorData);
             $accessData['status'] = 1;
+            
+            $content['Subject'] = $firstName .", You're invited to join Smart Laundry";
+            $email_msg = "Dear ". $firstName .",<br><br>";
+            $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
+            $email_msg .= "URL: ". base_url('login') ."<br>";
+            $email_msg .= "Email: ". $email ."<br>";
+            $email_msg .= "Password: ". $rawPass ."<br><br>";
+            $email_msg .= "Any issues, please contact with support.<br><br>";
+            $email_msg .= "Thank You";
+            
+            $content['message'] = $email_msg;
+            sendEmail($email, $content);
 
 
             $this->CommonModel->insert_data('nso_user_vendor_access', $accessData);
@@ -117,6 +129,14 @@ class MasterAdminController extends CI_Controller
         $data['title'] = 'Company Setting';
         $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_sysconfig', 'id', 1);
         $data['mainContent'] = $this->load->view('master/setup/setting_company.php', $data, true);
+        $this->load->view('master_admin_templete', $data);
+    }
+    
+    
+    public function setting_images(){
+        $data['title'] = 'Image Settings';
+        // $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_sysconfig', 'id', 1);
+        $data['mainContent'] = $this->load->view('master/setup/setting_images.php', $data, true);
         $this->load->view('master_admin_templete', $data);
     }
 }

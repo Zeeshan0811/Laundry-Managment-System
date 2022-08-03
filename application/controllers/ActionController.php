@@ -65,7 +65,7 @@ class ActionController extends CI_Controller
             foreach ($product_list as $productId) {
                 if ($total_piece[$i] > 0) {
                     $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
-
+    
                     $ledger_item['generalsId'] = $generalId;
                     $ledger_item['transectionId'] = $transectionId;
                     $ledger_item['productId'] =  $productId;
@@ -73,7 +73,7 @@ class ActionController extends CI_Controller
                     $ledger_item['quantity'] = $quantity = $total_piece[$i];
                     $ledger_item['rental_type'] = $product_info->rental_type;
                     $ledger_item['total'] = $unit_price *  $quantity;
-
+    
                     $ledger[] = $ledger_item;
                 }
                 $i++;
@@ -85,7 +85,8 @@ class ActionController extends CI_Controller
             echo  $generalId;
         }
     }
-
+    
+    
     public function order_edit($transectionId)
     {
         $data['title'] = "Modify Order";
@@ -195,12 +196,38 @@ class ActionController extends CI_Controller
             echo json_encode($orders);
         }
     }
+    
+    
+    public function fetch_order_list()
+    {
+        if (isPostBack()) {
+            $item = json_decode($this->input->post('item'));
 
+            if ($this->session->userdata('access_type') > 4) {
+                $customer =  ($item->customer == 0) ? null : $item->customer;
+            } else {
+                $customer =  $this->session->userdata('company_id');
+            }
+
+
+            $order_type =  $item->order_type;
+            $transectionId =  $item->transectionId;
+            $purchase_order_number =  $item->purchase_order_number;
+            $order_status =  ($item->order_status == 0) ? null : $item->order_status;
+            $vendor_id =  $this->session->userdata('vendor_id');
+
+            $data['orders'] = $this->CommonModel->get_order_list_by_company_id($order_type, $order_status, $vendor_id, $customer,  $transectionId, $purchase_order_number);
+            $this->load->view('admin/report/report_element.php', $data);
+            // echo json_encode($orders);
+        }
+    }
+    
     public function fetch_single_order($transectionId)
     {
         $ledgers = $this->CommonModel->get_data_list_by_single_column('nso_generalledger', 'transectionId', $transectionId);
         echo json_encode($ledgers);
     }
+    
 
     public function change_order_status()
     {
@@ -214,11 +241,6 @@ class ActionController extends CI_Controller
         } else {
             echo 0;
         }
-    }
-
-    public function invoice_email($transectionId)
-    {
-        $invoice = $this->CommonModel->get_single_invoice_detail($transectionId);
     }
 
     public function rental()

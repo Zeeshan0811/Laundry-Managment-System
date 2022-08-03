@@ -24,7 +24,7 @@
             </li>
         </ul>
 
-        <span class="badge bg-success ml-md-3 mr-md-auto">Online</span>
+        <!--<span class="badge bg-success ml-md-3 mr-md-auto">Online</span>-->
 
         <span class="badge bg-white text-dark ml-md-3 mr-md-auto p-2 font-weight-bold">
             <a href="<?php echo base_url('setting/vendor'); ?>">

@@ -71,6 +71,7 @@
                         <li class="nav-item"><a href="<?php echo base_url('setting/user')  ?>" class="nav-link">My Profile</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('ma/setting/company')  ?>" class="nav-link">My Company</a></li>
                         <li class="nav-item"><a href="<?php echo base_url('setting/password')  ?>" class="nav-link">Change Password</a></li>
+                        <li class="nav-item"><a href="<?php echo base_url('ma/setting/images')  ?>" class="nav-link">Image Settings</a></li>
                     </ul>
                 </li>
             </ul>

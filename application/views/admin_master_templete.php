@@ -11,7 +11,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo site_url('assets/frontend/img/favicon.png') ?>" />
 
     <!-- Global stylesheets -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="<?php echo site_url('assets/admin/css/icons/icomoon/styles.min.css'); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo site_url('assets/admin/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo site_url('assets/admin/css/bootstrap_limitless.min.css'); ?>" rel="stylesheet" type="text/css">
@@ -19,7 +19,7 @@
     <link href="<?php echo site_url('assets/admin/css/components.min.css'); ?>" rel="stylesheet" type="text/css">
     <link href="<?php echo site_url('assets/admin/css/colors.min.css'); ?>" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
     <link href="<?php echo site_url('assets/admin/css/custom.css'); ?>" rel="stylesheet" type="text/css">
 
     <!-- Core JS files -->
@@ -90,8 +90,8 @@
     <script src="https://www.w3counter.com/tracker.js?id=128746"></script>
 
     <!-- summernote -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     <!-- /theme JS files -->
 
     <?php

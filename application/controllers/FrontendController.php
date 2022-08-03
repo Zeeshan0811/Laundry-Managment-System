@@ -16,7 +16,6 @@ class FrontendController extends CI_Controller
 
     public function index()
     {
-
         redirect(base_url('login'));
         // $data['title'] = "Home";
         // $data['products'] = $this->CommonModel->get_product(null, null, null, null, 'brandName', 'ASC');
@@ -68,7 +67,7 @@ class FrontendController extends CI_Controller
         $data['mainContent'] = $this->load->view('frontend/confirmation_email.php', $data, true);
         $this->load->view('frontend_master_templete', $data);
     }
-
+    
     public function access_restriction()
     {
         $data['title'] = "Access Restriction";

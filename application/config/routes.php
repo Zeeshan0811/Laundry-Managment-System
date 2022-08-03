@@ -57,6 +57,7 @@ $route['ma/vendors'] = 'MasterAdminController/vendors';
 $route['ma/vendor_add'] = 'MasterAdminController/vendor_add';
 
 $route['ma/setting/company'] = 'MasterAdminController/setting_company';
+$route['ma/setting/images'] = 'MasterAdminController/setting_images';
 
 
 // Ajax Controller
@@ -118,12 +119,11 @@ $route['rental'] = 'ActionController/order';
 $route['pickup'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
 $route['order_edit/(:any)'] = 'ActionController/order_edit/$1';
-$route['invoice_email/(:any)'] = 'ActionController/invoice_email/$1';
-
 
 $route['ajax/order_submit'] = 'ActionController/order_submit';
 $route['ajax/order_modify/(:any)'] = 'ActionController/order_modify/$1';
 $route['ajax/fetch_orders'] = 'ActionController/fetch_orders';
+$route['ajax/fetch_order_list'] = 'ActionController/fetch_order_list';
 $route['ajax/fetch_single_order/(:any)'] = 'ActionController/fetch_single_order/$1';
 $route['ajax/change_order_status'] = 'ActionController/change_order_status';
 

@@ -16,6 +16,7 @@
 <link href="<?php echo site_url('assets/admin/css/layout.min.css'); ?>" rel="stylesheet" type="text/css">
 <link href="<?php echo site_url('assets/admin/css/components.min.css'); ?>" rel="stylesheet" type="text/css">
 <link href="<?php echo site_url('assets/admin/css/colors.min.css'); ?>" rel="stylesheet" type="text/css">
+<link href="<?php echo site_url('assets/admin/css/custom.css'); ?>" rel="stylesheet" type="text/css">
 <!-- /global stylesheets -->
 
 <!-- Core JS files -->
@@ -45,6 +46,7 @@
 
 <script src="<?php echo site_url('assets/admin/js/custom.js'); ?>"></script>
 
+
 </head>
 
 <body>
@@ -64,8 +66,9 @@
                         <div class="tab-content card-body">
                             <div class="tab-pane fade show active" id="login-tab1">
                                 <div class="text-center mb-3">
-                                    <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
-                                    <h5 class="mb-0">Login to your account</h5>
+                                    <!--<i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>-->
+                                    <img src="<?php echo site_url('upload/logo/logo_yoweri_laundries.png'); ?>" class="login_logo" alt="Logo">
+                                    <h5 class="mb-0">Login to your Smart Laundry Manager account</h5>
                                     <span class="d-block text-muted">Your credentials</span>
                                 </div>
 
@@ -101,11 +104,11 @@
                                         </label>
                                     </div>
 
-                                    <a href="<?php echo base_url('forget-password'); ?>" class="ml-auto">Forgot password?</a>
+                                    <a href="<?php echo base_url('forget-password'); ?>" class="ml-auto default_color">Forgot password?</a>
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                    <button type="submit" class="btn btn-primary default_background btn-block">Sign in</button>
                                 </div>
                             </div>
                         </div>

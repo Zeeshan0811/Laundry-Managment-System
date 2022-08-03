@@ -26,7 +26,7 @@
                                     <div class="form-group">
                                         <select id="type" name="type" data-placeholder="Select group" class="form-control">
                                             <option value="5">Manager</option>
-                                            <option value="6">Delivery Man</option>
+                                            <option value="6">Parking Department</option>
                                             <option value="7">Accountant</option>
                                         </select>
                                     </div>
@@ -96,6 +96,17 @@
         let lastName = $('#lastName').val();
         let email = $('#email').val();
         let phone = $('#phone').val();
+        
+        if(!firstName || !email || !phone){
+            alert('Please fill information properly');
+            return false;
+        }
+        
+        if(validateEmail(email) == false ){
+            alert('Please fill email address correctly');
+            return false;
+        }
+        
 
         let url = base_url + 'ajax/add_user_access';
 
@@ -135,11 +146,11 @@
             email,
             phone
         }, function(data) {
-            if (data == 1) {
-                alert('User has updated successfully!...');
-            } else {
-                alert('Something went wrong! Please try again...');
-            }
+            alert('User has updated successfully!...');
+            // if (data == 1) {
+            // } else {
+            //     alert('Something went wrong! Please try again...');
+            // }
         });
     });
 
@@ -150,7 +161,7 @@
                     <div class="form-group">
                         <select data-placeholder="Select group" class="form-control type">
                             <option value="5">Manager</option>
-                            <option value="6">Delivery</option>
+                            <option value="6">Parking Department</option>
                             <option value="7">Accountant</option>
                         </select>
                     </div>
@@ -185,8 +196,17 @@
             </tr>
         `;
 
-        $('#user_list').append(element);
-        // $(this).find('type').val(type).change();
+        $('#user_list').append(element).find("tr[data-user-id='" + user_id +"'] .type").val(type).change();
+        // $("tr[data-user-id='" + user_id +"']").find('.type').val(type).change();
+        // element.find('.phone').val("11111");
         // console.log(element);
+    }
+    
+    
+    
+    function validateEmail(email) 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
     }
 </script>

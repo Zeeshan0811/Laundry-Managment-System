@@ -56,10 +56,10 @@ class CustomerController extends CI_Controller
             $custom_details['billing_postcode'] = $this->input->post('billing_postcode');
 
 
-            $postBackData['firstName'] = $this->input->post('firstName');
-            $postBackData['lastName'] = $this->input->post('lastName');
+            $postBackData['firstName'] = $firstName = $this->input->post('firstName');
+            $postBackData['lastName'] = $lastName = $this->input->post('lastName');
             $postBackData['phone'] = $this->input->post('phone');
-            $postBackData['email'] = $this->input->post('email');
+            $postBackData['email'] = $email = $this->input->post('email');
             $postBackData['username'] = $this->input->post('email');
             $postBackData['rawPass'] = $rawPass = rand(100000, 999999);
             $postBackData['password'] = md5($rawPass);
@@ -72,6 +72,21 @@ class CustomerController extends CI_Controller
             $user_vendor_access['customer_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
             $user_vendor_access['company_id'] = $this->CommonModel->insert_data('nso_vendors', $custom_details);
             $this->CommonModel->insert_data('nso_user_vendor_access', $user_vendor_access);
+            
+            
+            $content['Subject'] = $firstName .", You're invited to join Smart Laundry";
+            $email_msg = "Dear ". $firstName .",<br><br>";
+            $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
+            $email_msg .= "URL: ". base_url('login') ."<br>";
+            $email_msg .= "Email: ". $email ."<br>";
+            $email_msg .= "Password: ". $rawPass ."<br><br>";
+            $email_msg .= "Any issues, please contact with support.<br><br>";
+            $email_msg .= "Thank You";
+            
+            $content['message'] = $email_msg;
+            sendEmail($email, $content);
+            
+            
             $this->db->trans_complete();
 
             if ($this->db->trans_status() === FALSE) {

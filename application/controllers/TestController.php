@@ -14,5 +14,10 @@ class TestController extends CI_Controller
 
     public function testing()
     {
+        $content['Subject'] = "You're invited to join Smart Laundry -54 ". time();
+        $content['message'] = "Helllo Guys, <br> This is test email from server<br>";
+        $content['message'] .= "sdfsdsdf<br>";
+        $content['message'] .= "aassssaaasdfsd<br>";
+        sendEmail("Zeeshan0811@gmail.com", $content);
     }
 }

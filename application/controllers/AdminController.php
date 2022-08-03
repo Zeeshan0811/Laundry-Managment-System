@@ -55,7 +55,7 @@ class AdminController extends CI_Controller
                     $this->session->set_userdata('vendor_id', $user_vendor_access->vendor_id);
                     $this->session->set_userdata('customer_id', $user_vendor_access->customer_id);
                     $this->session->set_userdata('company_id', $user_vendor_access->company_id);
-                    redirect(base_url('cp/dashboard'));
+                    redirect(base_url('admin'));
                 } else if ($userInfo->type > 3 && $userInfo->type < 8) {
                     $user_vendor_access = $this->CommonModel->table_info('nso_user_vendor_access', 'user_id', $userInfo->userId);
                     $this->session->set_userdata('access_id', $user_vendor_access->nso_access_id);
@@ -75,8 +75,7 @@ class AdminController extends CI_Controller
             redirect(base_url('login'));
         }
     }
-
-
+    
     public function forget_password()
     {
         if (isPostBack()) {
@@ -112,6 +111,7 @@ class AdminController extends CI_Controller
         $data['title'] = "Forget Password";
         $this->load->view('admin/forget_password.php', $data);
     }
+
 
 
     public function logout_admin()

@@ -41,6 +41,7 @@ if (!function_exists('templete_type')) {
 }
 
 
+
 if (!function_exists('status_text')) {
     function status_text($type)
     {
@@ -148,21 +149,25 @@ if (!function_exists('to_pennies')) {
     }
 }
 
+
+            // 'smtp_host' => 'mail.renttouch.com',
+            // 'smtp_port' => 26,
+            // 'smtp_user' => 'mail@renttouch.com',
 // Send Email
 if (!function_exists('sendEmail')) {
     function sendEmail($email, $content, $attachment = null)
     {
-        $senderEmail = 'mail@eastfuelconf.com';
-        $replyTo = 'info@eastfuelconf.com';
+        $senderEmail = 'mail@smartlaundrymanager.com';
+        $replyTo = 'mail@smartlaundrymanager.com';
         $senderName = 'no reply';
         $subject =  $content['Subject'];
         $message = $content['message'];
         $config = array(
             'protocol' => 'smtp',
-            'smtp_host' => 'eastfuelconf.com',
+            'smtp_host' => 'smartlaundrymanager.com',
             'smtp_port' => 587,
-            'smtp_user' => 'mail@eastfuelconf.com',
-            'smtp_pass' => '2$O5_lg.12o1',
+            'smtp_user' => 'mail@smartlaundrymanager.com',
+            'smtp_pass' => 'zToEf.H&qg4O',
             'mailtype'  => 'html',
             'charset'   => 'iso-8859-1',
             'newline' => "\r\n"
@@ -175,7 +180,7 @@ if (!function_exists('sendEmail')) {
         $_CI->email->from($senderEmail, $senderName);
         $_CI->email->reply_to($replyTo, $senderName);
         $_CI->email->to($email);
-        $_CI->email->bcc(array('Zeeshan0811@gmail.com'));
+        // $_CI->email->bcc(array('Zeeshan0811@gmail.com'));
         $_CI->email->subject($subject);
         $_CI->email->message($message);
         if ($attachment != null) {
@@ -189,14 +194,14 @@ if (!function_exists('sendEmail')) {
             }
         }
         $_CI->email->set_newline("\r\n");
-        // $result =  $_CI->email->send();
-        // return $result;
-        if (!$_CI->email->send()) {
-            echo "email not sent";
-            print_r($_CI->email->print_debugger(), true);
-        } else {
-            echo "email sent";
-        }
+        $result =  $_CI->email->send();
+        return $result;
+        // if (!$_CI->email->send()) {
+        //     echo "email not sent";
+        //     print_r($_CI->email->print_debugger(), true);
+        // } else {
+        //     echo "email sent";
+        // }
     }
 }
 

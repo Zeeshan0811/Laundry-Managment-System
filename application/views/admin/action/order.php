@@ -121,7 +121,7 @@
                                     <td>
                                         <div class="form-group">
                                             <input type="hidden" name="master_stock_id[]" value="<?php echo $product->master_stock_id; ?>">
-                                            <input type="text" name="total_piece[]" value="0" class="form-control touchspin-set-value total_piece" data-master-stock-id="<?php echo $product->master_stock_id; ?>">
+                                            <input type="text" name="total_piece[]" value="1" class="form-control touchspin-set-value total_piece" data-master-stock-id="<?php echo $product->master_stock_id; ?>">
                                         </div>
                                     </td>
                                 </tr>

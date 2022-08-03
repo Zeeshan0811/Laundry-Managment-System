@@ -230,7 +230,7 @@ class SetupController extends CI_Controller
             $postBackData['status'] = $vendor_access['status'] = 1;
             $postBackData['type'] = $vendor_access['access_type'] = $this->input->post('type');
 
-            $postBackData['firstName'] = $firstName = $this->input->post('firstName');
+            $postBackData['firstName'] = $firstName =  $this->input->post('firstName');
             $postBackData['lastName'] = $this->input->post('lastName');
             $postBackData['email'] = $email = $postBackData['username'] =  $this->input->post('email');
             $postBackData['phone'] = $this->input->post('phone');
@@ -241,8 +241,8 @@ class SetupController extends CI_Controller
 
             $vendor_access['user_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
             $vendor_access['vendor_id'] =  $this->session->userdata('vendor_id');
-
-
+            
+            
             $content['Subject'] = $firstName . ", You're invited to join Smart Laundry";
             $email_msg = "Dear " . $firstName . ",<br><br>";
             $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
