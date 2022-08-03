@@ -216,6 +216,11 @@ class ActionController extends CI_Controller
         }
     }
 
+    public function invoice_email($transectionId)
+    {
+        $invoice = $this->CommonModel->get_single_invoice_detail($transectionId);
+    }
+
     public function rental()
     {
         $data['title'] = "Create New Rental Charge";

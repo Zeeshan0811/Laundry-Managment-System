@@ -118,6 +118,7 @@ $route['rental'] = 'ActionController/order';
 $route['pickup'] = 'ActionController/order';
 $route['orders'] = 'ActionController/orders';
 $route['order_edit/(:any)'] = 'ActionController/order_edit/$1';
+$route['invoice_email/(:any)'] = 'ActionController/invoice_email/$1';
 
 
 $route['ajax/order_submit'] = 'ActionController/order_submit';

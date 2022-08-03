@@ -4,6 +4,7 @@
         <div class="card-header bg-transparent header-elements-inline">
             <h6 class="card-title">invoice</h6>
             <div class="header-elements">
+                <button type="button" class="btn btn-light btn-sm" onClick="Javascript:window.location.href = '<?php echo base_url('invoice_email/' . $invoice->transectionId); ?>';"><i class="icon-pencil5 mr-2"></i> Email</button>
                 <button type="button" class="btn btn-light btn-sm" onClick="Javascript:window.location.href = '<?php echo base_url('order_edit/' . $invoice->transectionId); ?>';"><i class="icon-pencil5 mr-2"></i> Edit</button>
                 <button type="button" class="btn btn-light btn-sm ml-3"><i class="icon-printer mr-2"></i> Print</button>
             </div>
