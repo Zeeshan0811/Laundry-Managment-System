@@ -26,10 +26,17 @@ class MasterAdminController extends CI_Controller
     public function vendors()
     {
         $data['title'] = "Vendor List";
-        $data['vendors'] = $this->CommonModel->get_data_list_by_single_column('nso_vendors', 'created_by',  $this->session->userdata('userId'), 'trading_name', 'ASC');
+        $data['vendors'] = $this->CommonModel->get_data_list_by_single_column('nso_vendors', 'created_by',  $this->session->userdata('userId'), 'created_at', 'DESC');
         // dumpVar($data);
         $data['mainContent'] = $this->load->view('master/vendor/vendor_list.php', $data, true);
         $this->load->view('master_admin_templete', $data);
+    }
+
+    public function vendor_status($vendor_id, $status)
+    {
+        $vendorData['vendor_status'] = $status;
+        $this->CommonModel->update_data('nso_vendors', $vendorData, 'vendor_id', $vendor_id);
+        redirect(base_url('ma/vendors'));
     }
 
 
@@ -62,16 +69,16 @@ class MasterAdminController extends CI_Controller
 
             $vendorId = $accessData['vendor_id'] =  $this->CommonModel->insert_data('nso_vendors', $vendorData);
             $accessData['status'] = 1;
-            
-            $content['Subject'] = $firstName .", You're invited to join Smart Laundry";
-            $email_msg = "Dear ". $firstName .",<br><br>";
+
+            $content['Subject'] = $firstName . ", You're invited to join Smart Laundry";
+            $email_msg = "Dear " . $firstName . ",<br><br>";
             $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
-            $email_msg .= "URL: ". base_url('login') ."<br>";
-            $email_msg .= "Email: ". $email ."<br>";
-            $email_msg .= "Password: ". $rawPass ."<br><br>";
+            $email_msg .= "URL: " . base_url('login') . "<br>";
+            $email_msg .= "Email: " . $email . "<br>";
+            $email_msg .= "Password: " . $rawPass . "<br><br>";
             $email_msg .= "Any issues, please contact with support.<br><br>";
             $email_msg .= "Thank You";
-            
+
             $content['message'] = $email_msg;
             sendEmail($email, $content);
 
@@ -131,11 +138,25 @@ class MasterAdminController extends CI_Controller
         $data['mainContent'] = $this->load->view('master/setup/setting_company.php', $data, true);
         $this->load->view('master_admin_templete', $data);
     }
-    
-    
-    public function setting_images(){
-        $data['title'] = 'Image Settings';
-        // $data['sysConf'] = $this->CommonModel->get_single_data_by_single_column('nso_sysconfig', 'id', 1);
+
+
+    public function setting_images()
+    {
+        if (isPostBack()) {
+            $file = $_FILES['image'];
+            $response = image_upload('image', 'upload/bg');
+
+            if (!empty($response['upload_data'])) {
+                $dashboard_type = $this->input->post('image_type');
+                $update_data[$dashboard_type] = $response['upload_data']['file_name'];
+                $this->CommonModel->update_data('nso_sysconfig', $update_data, 'id', 1);
+                message('Image has updated successfully!...');
+            } else {
+                exception('Something went wrong! Please try again...');
+            }
+            redirect(base_url('ma/setting/images'));
+        }
+        $data['title'] = 'Dashboard Image Settings';
         $data['mainContent'] = $this->load->view('master/setup/setting_images.php', $data, true);
         $this->load->view('master_admin_templete', $data);
     }

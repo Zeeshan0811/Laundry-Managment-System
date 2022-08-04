@@ -73,7 +73,12 @@
                                 <input type="text" class="form-control" name="zip" value="<?php echo $user->zip ?>" required>
                             </div>
                         </div>
-
+                        <div class="form-group row justify-content-md-center">
+                            <label class="col-form-label col-md-3">Photo</label>
+                            <div class="col-md-7">
+                                <input type="file" class="form-control" name="image">
+                            </div>
+                        </div>
                         <div class="form-group row justify-content-md-center">
                             <div class="col-md-10">
                                 <div class="text-right">
@@ -81,10 +86,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </div>
-
             </div>
             <!-- /hover rows -->
         </div>

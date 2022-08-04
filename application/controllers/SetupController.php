@@ -126,6 +126,16 @@ class SetupController extends CI_Controller
             $postBackData['zip'] = $this->input->post('zip');
             $postBackData['updatedBy'] = $this->session->userdata('userId');
 
+            if (!empty($_FILES)) {
+                $response = image_upload('image', 'upload/user');
+                if (!empty($response['upload_data'])) {
+                    $postBackData['photo']  = $response['upload_data']['file_name'];
+                } else {
+                    exception('Image format is not supported! Please try again...');
+                    redirect(base_url('setting/user'));
+                }
+            }
+
             $this->CommonModel->update_data('nso_user', $postBackData, 'userId', $this->session->userdata('userId'));
             $this->db->trans_complete();
 
@@ -241,8 +251,8 @@ class SetupController extends CI_Controller
 
             $vendor_access['user_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
             $vendor_access['vendor_id'] =  $this->session->userdata('vendor_id');
-            
-            
+
+
             $content['Subject'] = $firstName . ", You're invited to join Smart Laundry";
             $email_msg = "Dear " . $firstName . ",<br><br>";
             $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";

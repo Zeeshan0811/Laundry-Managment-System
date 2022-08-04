@@ -11,7 +11,7 @@
     <!-- Hover rows -->
     <div class="card">
         <div class="card-body">
-            <img src="<?php echo site_url('upload/bg/2031.png'); ?>" alt="" class="card-img-top">
+            <img src="<?php echo site_url('upload/bg/' . $this->system_config->customer_dashboard_image); ?>" alt="" class="card-img-top">
         </div>
     </div>
     <!-- /hover rows -->

@@ -17,11 +17,13 @@
                         <thead>
                             <tr>
                                 <th>SL.</th>
-                                <th>Vendor Details</th>
-                                <th>User Information</th>
+                                <th>Vendor</th>
+                                <th>Details</th>
+                                <th>User</th>
                                 <th>Customers</th>
                                 <th>Status</th>
                                 <th>Created At</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,17 +35,17 @@
                                 $i++; ?>
                                 <tr>
                                     <td width="10%"><?php echo $i; ?></td>
+                                    <td><?php echo $item->trading_name; ?></td>
                                     <td>
-                                        Trading Name: <?php echo $item->trading_name; ?> </br>
-                                        Legal Name: <?php echo $item->legal_name; ?> </br>
+                                        <?php echo $item->legal_name; ?> </br>
                                         ABN: <?php echo $item->abn; ?> </br>
-                                        Business Email: <?php echo $item->business_email; ?> </br>
-                                        Business Phone: <?php echo $item->business_phone; ?> </br>
+                                        <?php echo $item->business_phone; ?> </br>
+                                        <?php echo $item->business_email; ?> </br>
                                     </td>
                                     <td>
-                                        User Name: <?php echo $user->firstName . " " . $user->lastName; ?> </br>
-                                        Email: <?php echo $user->phone; ?> </br>
-                                        Phone: <?php echo $user->email; ?> </br>
+                                        <?php echo $user->firstName . " " . $user->lastName; ?> </br>
+                                        <?php echo $user->phone; ?> </br>
+                                        <?php echo $user->email; ?> </br>
                                     </td>
                                     <td><?php
                                         $j = 0;
@@ -56,11 +58,24 @@
                                         ?>
                                     </td>
                                     <td>
-                                        <span class="change_status badge <?php echo status_color($user_access->status); ?>" data-current-status="<?php echo $user_access->status; ?>" data-user-id="<?php echo $user->userId; ?>" data-access-id="<?php echo $user_access->nso_access_id; ?>">
-                                            <?php echo status_text($user_access->status); ?>
-                                        </span>
+                                        <?php if ($item->vendor_status == 1) { ?>
+                                            <span class="badge badge-success my-3 my-lg-0 ml-lg-3">Active</span>
+                                        <?php } else { ?>
+                                            <span class="badge badge-danger my-3 my-lg-0 ml-lg-3">Disabled</span>
+                                        <?php }   ?>
                                     </td>
-                                    <td><?php echo date('F j, Y, g:i a', strtotime($item->created_at)); ?></td>
+                                    <td><?php echo date('F j, Y <\b\\r> g:i a', strtotime($item->created_at)); ?></td>
+                                    <td>
+                                        <?php if ($item->vendor_status == 1) { ?>
+                                            <a href="<?php echo base_url('ma/vendor_status/' . $item->vendor_id . '/3') ?>" onclick="return confirm('Are you sure?')" class="btn  btn-danger btn-sm mb-2" title="Disable Now">
+                                                <i class="icon-blocked"> </i>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo base_url('ma/vendor_status/' . $item->vendor_id . '/1') ?>" onclick="return confirm('Are you sure?')" class="btn  btn-success btn-sm mb-2" title="Disable Now">
+                                                <i class="icon-checkmark"> </i>
+                                            </a>
+                                        <?php } ?>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>

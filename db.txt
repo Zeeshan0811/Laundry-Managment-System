@@ -1,0 +1,1 @@
+ALTER TABLE `nso_sysconfig` ADD `master_dashboard_image` VARCHAR(255) NOT NULL AFTER `youtube`, ADD `admin_dashboard_image` VARCHAR(255) NOT NULL AFTER `master_dashboard_image`, ADD `customer_dashboard_image` VARCHAR(255) NOT NULL AFTER `admin_dashboard_image`;

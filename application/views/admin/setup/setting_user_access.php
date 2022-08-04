@@ -26,8 +26,8 @@
                                     <div class="form-group">
                                         <select id="type" name="type" data-placeholder="Select group" class="form-control">
                                             <option value="5">Manager</option>
-                                            <option value="6">Parking Department</option>
-                                            <option value="7">Accountant</option>
+                                            <option value="6">Parker</option>
+                                            <option value="7">Accounts</option>
                                         </select>
                                     </div>
                                 </td>
@@ -96,17 +96,17 @@
         let lastName = $('#lastName').val();
         let email = $('#email').val();
         let phone = $('#phone').val();
-        
-        if(!firstName || !email || !phone){
+
+        if (!firstName || !email || !phone) {
             alert('Please fill information properly');
             return false;
         }
-        
-        if(validateEmail(email) == false ){
+
+        if (validateEmail(email) == false) {
             alert('Please fill email address correctly');
             return false;
         }
-        
+
 
         let url = base_url + 'ajax/add_user_access';
 
@@ -161,8 +161,8 @@
                     <div class="form-group">
                         <select data-placeholder="Select group" class="form-control type">
                             <option value="5">Manager</option>
-                            <option value="6">Parking Department</option>
-                            <option value="7">Accountant</option>
+                            <option value="6">Parker</option>
+                            <option value="7">Accounts</option>
                         </select>
                     </div>
                 </td>
@@ -196,16 +196,15 @@
             </tr>
         `;
 
-        $('#user_list').append(element).find("tr[data-user-id='" + user_id +"'] .type").val(type).change();
+        $('#user_list').append(element).find("tr[data-user-id='" + user_id + "'] .type").val(type).change();
         // $("tr[data-user-id='" + user_id +"']").find('.type').val(type).change();
         // element.find('.phone').val("11111");
         // console.log(element);
     }
-    
-    
-    
-    function validateEmail(email) 
-    {
+
+
+
+    function validateEmail(email) {
         var re = /\S+@\S+\.\S+/;
         return re.test(email);
     }

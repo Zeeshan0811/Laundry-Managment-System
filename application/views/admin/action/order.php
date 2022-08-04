@@ -108,24 +108,27 @@
                                 <!-- <th>CATEGORY</th> -->
                                 <th>PACK SIZE</th>
                                 <th>PACKS</th>
-                                <th width="20%">TOTAL PIECES</th>
+                                <th width="22%">TOTAL PIECES</th>
                             </tr>
                         </thead>
                         <tbody id="product_list">
-                            <?php foreach ($products as $product) { ?>
-                                <tr data-master_stock_id="<?php echo $product->master_stock_id; ?>">
-                                    <td><?php echo $product->product_name; ?></td>
-                                    <!-- <td><?php echo $product->pack_size; ?></td> -->
-                                    <td><?php echo $product->pack_size; ?></td>
-                                    <td><?php echo $product->pack_size; ?></td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="hidden" name="master_stock_id[]" value="<?php echo $product->master_stock_id; ?>">
-                                            <input type="text" name="total_piece[]" value="1" class="form-control touchspin-set-value total_piece" data-master-stock-id="<?php echo $product->master_stock_id; ?>">
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                            <?php foreach ($products as $product) {
+                                if (!empty($product->product_name)) {
+                            ?>
+                                    <tr data-master_stock_id="<?php echo $product->master_stock_id; ?>">
+                                        <td><?php echo $product->product_name; ?></td>
+                                        <!-- <td><?php echo $product->pack_size; ?></td> -->
+                                        <td><?php echo $product->pack_size; ?></td>
+                                        <td><?php echo $product->pack_size; ?></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="hidden" name="master_stock_id[]" value="<?php echo $product->master_stock_id; ?>">
+                                                <input type="text" name="total_piece[]" value="1" class="form-control touchspin-set-value total_piece" data-master-stock-id="<?php echo $product->master_stock_id; ?>">
+                                            </div>
+                                        </td>
+                                    </tr>
+                            <?php }
+                            } ?>
                         <tbody>
                     </table>
                 </div>
@@ -148,6 +151,9 @@
 <!-- /footer -->
 
 <script>
+    $("#total_piece").trigger("touchspin.updatesettings", {
+        max: 9999999999999999999999
+    });
     $(document).ready(function(e) {
         let order_type = "<?php echo $this->uri->segment(1, 0); ?>";
         let order_value = 5;

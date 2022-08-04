@@ -17,8 +17,11 @@
                         <thead>
                             <tr>
                                 <th>SL.</th>
+                                <th>Trading Name</th>
                                 <th>Company</th>
                                 <th>User</th>
+                                <th>Status</th>
+                                <th>Created At</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -30,24 +33,38 @@
                                 $i++; ?>
                                 <tr>
                                     <td width="10%"><?php echo $i; ?></td>
+                                    <td><span class="font-weight-bold"><?php echo $company->trading_name; ?></span></td>
                                     <td>
-                                        <span class="font-weight-bold">Trading Name: </span> <?php echo $company->trading_name; ?></br>
-                                        <span class="font-weight-bold">Legal Name: </span> <?php echo $company->legal_name; ?></br>
-                                        <span class="font-weight-bold">Business Phone: </span> <?php echo $company->business_phone; ?></br>
-                                        <span class="font-weight-bold">Business Email: </span> <?php echo $company->business_email; ?>
+                                        <?php echo $company->legal_name; ?></br>
+                                        <?php echo $company->business_phone; ?></br>
+                                        <?php echo $company->business_email; ?>
                                     </td>
                                     <td>
-                                        <span class="font-weight-bold">Name: </span> <?php echo $customer->firstName . ' ' . $customer->lastName; ?></br>
-                                        <span class="font-weight-bold">Phone: </span> <?php echo $customer->phone; ?></br>
-                                        <span class="font-weight-bold">Email: </span> <?php echo $customer->email; ?>
+                                        <?php echo $customer->firstName . ' ' . $customer->lastName; ?></br>
+                                        <?php echo $customer->phone; ?></br>
+                                        <?php echo $customer->email; ?>
                                     </td>
                                     <td>
-                                        <a href="<?php echo base_url('customer_edit/' . $company->vendor_id) ?>" class="btn btn-primary btn-sm" title="Edit">
+                                        <?php if ($company->vendor_status == 1) { ?>
+                                            <span class="badge badge-success my-3 my-lg-0 ml-lg-3">Active</span>
+                                        <?php } else { ?>
+                                            <span class="badge badge-danger my-3 my-lg-0 ml-lg-3">Disabled</span>
+                                        <?php }   ?>
+                                    </td>
+                                    <td><?php echo date('F j, Y <\b\\r> g:i a', strtotime($company->created_at)); ?></td>
+                                    <td>
+                                        <a href="<?php echo base_url('customer_edit/' . $company->vendor_id) ?>" class="btn btn-primary btn-sm mb-2" title="Edit">
                                             <i class="icon-pencil "></i>
                                         </a>
-                                        <!-- <a href="<?php echo base_url('admin/delete/customer/' . $customer->userId) ?>" onclick="return confirm('Are you sure?')" class="btn  btn-danger btn-sm" title="Delete">
-                                            <i class="icon-trash"> </i>
-                                        </a> -->
+                                        <?php if ($company->vendor_status == 1) { ?>
+                                            <a href="<?php echo base_url('company_status/' . $company->vendor_id . '/3') ?>" onclick="return confirm('Are you sure?')" class="btn  btn-danger btn-sm mb-2" title="Disable Now">
+                                                <i class="icon-blocked"> </i>
+                                            </a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo base_url('company_status/' . $company->vendor_id . '/1') ?>" onclick="return confirm('Are you sure?')" class="btn  btn-success btn-sm mb-2" title="Disable Now">
+                                                <i class="icon-checkmark"> </i>
+                                            </a>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                             <?php } ?>

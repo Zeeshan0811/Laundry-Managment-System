@@ -109,12 +109,21 @@
 <body class="home">
     <?php $current_user = $this->CommonModel->get_single_data_by_single_column('nso_user', 'userId', $this->session->userdata('userId')); ?>
     <!-- START HEADER SECTION -->
-    <?php include 'application/views/admin/includes/header.php'; ?>
+    <?php
+    if ($current_user->type == 6) {
+        $additional = "_parker.php";
+    } else if ($current_user->type == 7) {
+        $additional = "_accounts.php";
+    } else {
+        $additional = ".php";
+    }
+
+    include 'application/views/admin/includes/header' . $additional; ?>
 
     <!-- Page content -->
     <div class="page-content">
         <!-- START SIDEBAR SECTION -->
-        <?php include 'application/views/admin/includes/sidebar.php'; ?>
+        <?php include 'application/views/admin/includes/sidebar' . $additional; ?>
 
         <!-- Main content -->
         <div class="content-wrapper">

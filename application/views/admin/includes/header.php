@@ -16,13 +16,13 @@
     </div>
 
     <div class="collapse navbar-collapse" id="navbar-mobile">
-        <ul class="navbar-nav">
+        <!-- <ul class="navbar-nav">
             <li class="nav-item">
                 <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
                     <i class="icon-paragraph-justify3"></i>
                 </a>
             </li>
-        </ul>
+        </ul> -->
 
         <!--<span class="badge bg-success ml-md-3 mr-md-auto">Online</span>-->
 
@@ -62,7 +62,7 @@
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
                     <?php $photo = (!empty($current_user->photo)) ? $current_user->photo : 'default.png'; ?>
-                    <img src="<?php echo site_url('upload/user/' . $photo); ?>" class="rounded-circle mr-2" height="34" alt="">
+                    <img src="<?php echo site_url('upload/user/' . $photo); ?>" class="rounded-circle mr-2" height="34" width="34" alt="">
                     <span><?php echo $current_user->firstName;  ?></span>
                 </a>
 

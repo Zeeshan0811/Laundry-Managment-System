@@ -55,6 +55,7 @@ $route['cp/setting/company'] = 'CustomerPanelController/setting_company';
 $route['ma/dashboard'] = 'MasterAdminController/dashboard';
 $route['ma/vendors'] = 'MasterAdminController/vendors';
 $route['ma/vendor_add'] = 'MasterAdminController/vendor_add';
+$route['ma/vendor_status/(:any)/(:any)'] = 'MasterAdminController/vendor_status/$1/$2';
 
 $route['ma/setting/company'] = 'MasterAdminController/setting_company';
 $route['ma/setting/images'] = 'MasterAdminController/setting_images';
@@ -105,6 +106,7 @@ $route['ajax/get_user_access_list'] = 'SetupController/get_user_access_list';
 $route['customers'] = 'CustomerController/customers';
 $route['customer_add'] = 'CustomerController/customer_add';
 $route['customer_edit/(:any)'] = 'CustomerController/customer_edit/$1';
+$route['company_status/(:any)/(:any)'] = 'CustomerController/company_status/$1/$2';
 
 
 $route['master_stock'] = 'ProductController/master_stock';

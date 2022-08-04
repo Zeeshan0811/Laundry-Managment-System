@@ -62,7 +62,7 @@ var InputGroups = function() {
         // Postfix
         $('.touchspin-postfix').TouchSpin({
             min: 0,
-            max: 100,
+            max: 10000000,
             step: 0.1,
             decimals: 2,
             postfix: '%'
@@ -71,7 +71,7 @@ var InputGroups = function() {
         // Prefix
         $('.touchspin-prefix').TouchSpin({
             min: 0,
-            max: 100,
+            max: 10000000,
             step: 0.1,
             decimals: 2,
             prefix: '$'

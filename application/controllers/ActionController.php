@@ -65,7 +65,7 @@ class ActionController extends CI_Controller
             foreach ($product_list as $productId) {
                 if ($total_piece[$i] > 0) {
                     $product_info = $this->CommonModel->get_single_data_by_many_columns('nso_master_stock', array('master_stock_id' => $productId, 'vendor_id' => $vendor_id));
-    
+
                     $ledger_item['generalsId'] = $generalId;
                     $ledger_item['transectionId'] = $transectionId;
                     $ledger_item['productId'] =  $productId;
@@ -73,7 +73,7 @@ class ActionController extends CI_Controller
                     $ledger_item['quantity'] = $quantity = $total_piece[$i];
                     $ledger_item['rental_type'] = $product_info->rental_type;
                     $ledger_item['total'] = $unit_price *  $quantity;
-    
+
                     $ledger[] = $ledger_item;
                 }
                 $i++;
@@ -85,8 +85,8 @@ class ActionController extends CI_Controller
             echo  $generalId;
         }
     }
-    
-    
+
+
     public function order_edit($transectionId)
     {
         $data['title'] = "Modify Order";
@@ -196,8 +196,8 @@ class ActionController extends CI_Controller
             echo json_encode($orders);
         }
     }
-    
-    
+
+
     public function fetch_order_list()
     {
         if (isPostBack()) {
@@ -221,13 +221,13 @@ class ActionController extends CI_Controller
             // echo json_encode($orders);
         }
     }
-    
+
     public function fetch_single_order($transectionId)
     {
         $ledgers = $this->CommonModel->get_data_list_by_single_column('nso_generalledger', 'transectionId', $transectionId);
         echo json_encode($ledgers);
     }
-    
+
 
     public function change_order_status()
     {

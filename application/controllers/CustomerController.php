@@ -24,9 +24,16 @@ class CustomerController extends CI_Controller
         $data['title'] = "Customer List";
         $where['type'] = 2;
         $where['created_by'] =  $this->session->userdata('userId');
-        $data['companies'] = $this->CommonModel->get_data_list_by_multiple_columns('nso_vendors', '*', $where, 'trading_name', 'ASC');
+        $data['companies'] = $this->CommonModel->get_data_list_by_multiple_columns('nso_vendors', '*', $where, 'created_at', 'DESC');
         $data['mainContent'] = $this->load->view('admin/customer/customer_list.php', $data, true);
         $this->load->view('admin_master_templete', $data);
+    }
+
+    public function company_status($vendor_id, $status)
+    {
+        $vendorData['vendor_status'] = $status;
+        $this->CommonModel->update_data('nso_vendors', $vendorData, 'vendor_id', $vendor_id);
+        redirect(base_url('customers'));
     }
 
     public function customer_add()
@@ -72,21 +79,21 @@ class CustomerController extends CI_Controller
             $user_vendor_access['customer_id'] = $this->CommonModel->insert_data('nso_user', $postBackData);
             $user_vendor_access['company_id'] = $this->CommonModel->insert_data('nso_vendors', $custom_details);
             $this->CommonModel->insert_data('nso_user_vendor_access', $user_vendor_access);
-            
-            
-            $content['Subject'] = $firstName .", You're invited to join Smart Laundry";
-            $email_msg = "Dear ". $firstName .",<br><br>";
+
+
+            $content['Subject'] = $firstName . ", You're invited to join Smart Laundry";
+            $email_msg = "Dear " . $firstName . ",<br><br>";
             $email_msg .= "You are invited to join Smart Laundry. Your credentials to login.<br>";
-            $email_msg .= "URL: ". base_url('login') ."<br>";
-            $email_msg .= "Email: ". $email ."<br>";
-            $email_msg .= "Password: ". $rawPass ."<br><br>";
+            $email_msg .= "URL: " . base_url('login') . "<br>";
+            $email_msg .= "Email: " . $email . "<br>";
+            $email_msg .= "Password: " . $rawPass . "<br><br>";
             $email_msg .= "Any issues, please contact with support.<br><br>";
             $email_msg .= "Thank You";
-            
+
             $content['message'] = $email_msg;
             sendEmail($email, $content);
-            
-            
+
+
             $this->db->trans_complete();
 
             if ($this->db->trans_status() === FALSE) {
